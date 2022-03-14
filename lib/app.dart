@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/pipa.dart';
+import 'package:gallium_flutter/test.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   final Configuration _configuration;
@@ -21,7 +22,12 @@ class App extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(),
-        body: Test(),
+        body: MultiProvider(
+          providers: [
+            Provider.value(value: _configuration),
+          ],
+          child: Test(),
+        ),
       ),
     );
   }
