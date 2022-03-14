@@ -4,6 +4,6 @@ import 'package:gallium_flutter/cfg/configuration.dart';
 
 void main() {
   runApp(App(
-    configuration: Configuration.dev(),
+    configuration: Configuration.prod(),
   ));
 }
