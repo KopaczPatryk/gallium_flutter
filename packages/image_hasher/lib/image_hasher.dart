@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
+import 'package:image/image.dart';
+
 import 'package:image_hasher/models/hash.dart';
 import 'package:image_hasher/models/hashlet.dart';
 
@@ -16,15 +16,15 @@ class ImageHasher {
     this.depth = 8,
   }) : _depthDivider = 256 ~/ depth;
 
-  Hashlet _colorToHashlet(Color color) => Hashlet(
-        r: color.red ~/ _depthDivider,
-        g: color.green ~/ _depthDivider,
-        b: color.blue ~/ _depthDivider,
-        a: color.alpha ~/ _depthDivider,
+  Hashlet _colorToHashlet(int color) => Hashlet(
+        r: getRed(color) ~/ _depthDivider,
+        g: getGreen(color) ~/ _depthDivider,
+        b: getBlue(color) ~/ _depthDivider,
+        a: getAlpha(color) ~/ _depthDivider,
       );
 
-  Hash getImageHash(img.Image src) {
-    final image = img.copyResize(src, width: size, height: size);
+  Hash getImageHash(Image src) {
+    final image = copyResize(src, width: size, height: size);
 
     final hash = Hash(hashDepth: depth);
 
@@ -32,8 +32,7 @@ class ImageHasher {
       for (var y = 0; y < image.height; y++) {
         final intPixel = image.getPixel(x, y);
 
-        final px = Color(abgrToArgb(intPixel));
-        final hashlet = _colorToHashlet(px);
+        final hashlet = _colorToHashlet(abgrToArgb(intPixel));
         hash.add(hashlet);
       }
     }
