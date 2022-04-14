@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/test.dart';
+import 'package:gallium_flutter/widgets/dual_comparison/dual_comparison.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
@@ -26,7 +26,10 @@ class App extends StatelessWidget {
           providers: [
             Provider.value(value: _configuration),
           ],
-          child: Test(),
+          child: DualComparison(
+            fileA: '${_configuration.basePath}\\a.png',
+            fileB: '${_configuration.basePath}\\b.png',
+          ),
         ),
       ),
     );

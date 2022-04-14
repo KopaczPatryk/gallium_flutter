@@ -5,7 +5,7 @@ class Configuration {
     required this.basePath,
   });
   factory Configuration.dev() => Configuration(
-        basePath: r'E:\Zdjecia',
+        basePath: r'C:\Users\Kopac\Desktop\hasher',
       );
   factory Configuration.prod() => Configuration(
         basePath: r'E:\Zdjecia',
