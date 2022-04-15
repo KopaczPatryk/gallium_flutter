@@ -34,7 +34,6 @@ class _DualComparisonState extends State<DualComparison> {
       return pixels;
     }).toList();
 
-    // hasher.getImageHash(image);
     final hashes = imagesBytes.map((image) {
       final resultImage = img.decodeImage(image);
       const hasher = ImageHasher();

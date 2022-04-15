@@ -4,7 +4,7 @@ class Hashlet extends Equatable {
   final int r, g, b, a;
 
   @override
-  List<Object?> get props => [r, g, b, a];
+  List<Object> get props => [r, g, b, a];
 
   const Hashlet({
     required this.r,

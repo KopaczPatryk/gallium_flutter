@@ -1,9 +1,9 @@
 import 'package:image/image.dart';
 
-import 'package:image_hasher/models/hash.dart';
-import 'package:image_hasher/models/hashlet.dart';
+import 'models/hash.dart';
+import 'models/hashlet.dart';
 
-import 'package:image_hasher/utils/color_space_converter.dart';
+import 'utils/color_space_converter.dart';
 
 class ImageHasher {
   final int size;
