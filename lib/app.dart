@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/widgets/dual_comparison/dual_comparison.dart';
+import 'package:gallium_flutter/navigation/app_router.gr.dart';
+
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   final Configuration _configuration;
+  final AppRouter _router;
 
-  const App({
+  App({
     required Configuration configuration,
     Key? key,
   })  : _configuration = configuration,
+        _router = AppRouter(),
         super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(),
-        body: MultiProvider(
-          providers: [
-            Provider.value(value: _configuration),
-          ],
-          child: DualComparison(
-            fileA: '${_configuration.basePath}\\a.png',
-            fileB: '${_configuration.basePath}\\b.png',
-          ),
-        ),
+    return MaterialApp.router(
+      title: 'Gallium flutter',
+      routeInformationParser: _router.defaultRouteParser(),
+      routerDelegate: _router.delegate(),
+      theme: ThemeData.light(),
+      builder: (context, router) => MultiProvider(
+        providers: [
+          Provider.value(value: _configuration),
+        ],
+        child: router,
       ),
     );
   }
