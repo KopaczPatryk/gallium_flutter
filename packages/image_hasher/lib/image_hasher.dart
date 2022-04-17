@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:image/image.dart';
 
 import 'models/hash.dart';
@@ -23,7 +25,8 @@ class ImageHasher {
         a: getAlpha(color) ~/ _depthDivider,
       );
 
-  Hash getImageHash(Image src) {
+  Future<Hash> getImageHash(Image src) {
+    final completer = Completer<Hash>();
     final image = copyResize(src, width: size, height: size);
 
     final hash = Hash(hashDepth: depth);
@@ -36,6 +39,7 @@ class ImageHasher {
         hash.add(hashlet);
       }
     }
-    return hash;
+    completer.complete(hash);
+    return completer.future;
   }
 }
