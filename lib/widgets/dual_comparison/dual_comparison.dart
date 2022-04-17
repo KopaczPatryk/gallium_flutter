@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_hasher/image_hasher.dart';
-import 'package:image_hasher/models/hash.dart';
 import 'package:image_hasher/utils/hash_comparator.dart';
 
 class DualComparison extends StatefulWidget {
@@ -46,11 +45,12 @@ class _DualComparisonState extends State<DualComparison> {
       }
     }).toList();
 
-    final List<Hash> hashes = [];
-    hashFutures.first.then(hashes.add);
-    hashFutures.last.then(hashes.add);
+    // final List<Hash> hashes = [];
+    // hashFutures.first.then(hashes.add);
+    // hashFutures.last.then(hashes.add);
 
-    similarity = HashComparator.compareHashes(hashes.first, hashes.last);
+    similarity =
+        HashComparator.compareHashes(hashFutures.first, hashFutures.last);
 
     super.initState();
   }

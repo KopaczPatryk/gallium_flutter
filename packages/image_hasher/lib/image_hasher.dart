@@ -25,8 +25,8 @@ class ImageHasher {
         a: getAlpha(color) ~/ _depthDivider,
       );
 
-  Future<Hash> getImageHash(Image src) {
-    final completer = Completer<Hash>();
+  Hash getImageHash(Image src) {
+    // final completer = Completer<Hash>();
     final image = copyResize(src, width: size, height: size);
 
     final hash = Hash(hashDepth: depth);
@@ -39,7 +39,9 @@ class ImageHasher {
         hash.add(hashlet);
       }
     }
-    completer.complete(hash);
-    return completer.future;
+    // completer.complete(hash);
+    // return completer.future;
+
+    return hash;
   }
 }

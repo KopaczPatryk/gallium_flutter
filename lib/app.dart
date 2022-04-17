@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
+import 'package:gallium_flutter/services/thumbnails_service.dart';
+import 'package:gallium_flutter/services/thumbnails_service_events.dart';
 
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   final Configuration _configuration;
   final AppRouter _router;
+  final ThumbnailsBloc _thumbnailsBloc;
 
   App({
     required Configuration configuration,
     Key? key,
   })  : _configuration = configuration,
+        _thumbnailsBloc = ThumbnailsBloc(configuration: configuration)
+          ..add(Init()),
         _router = AppRouter(),
         super(key: key);
 
@@ -22,11 +28,16 @@ class App extends StatelessWidget {
       routeInformationParser: _router.defaultRouteParser(),
       routerDelegate: _router.delegate(),
       theme: ThemeData.light(),
-      builder: (context, router) => MultiProvider(
+      builder: (context, router) => MultiBlocProvider(
         providers: [
-          Provider.value(value: _configuration),
+          BlocProvider.value(value: _thumbnailsBloc),
         ],
-        child: router,
+        child: MultiProvider(
+          providers: [
+            Provider.value(value: _configuration),
+          ],
+          child: router,
+        ),
       ),
     );
   }
