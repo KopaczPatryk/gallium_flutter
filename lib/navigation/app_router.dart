@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:gallium_flutter/pages/dashboard.dart';
-import 'package:gallium_flutter/pages/page_a.dart';
-import 'package:gallium_flutter/pages/page_b.dart';
+import 'package:gallium_flutter/pages/photo_browser_page.dart';
+import 'package:gallium_flutter/pages/faces_page.dart';
 import 'package:gallium_flutter/pages/page_c.dart';
 
 @MaterialAutoRouter(
-  replaceInRouteName: 'Page,Route,Screen',
+  replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(
       initial: true,
@@ -14,12 +14,12 @@ import 'package:gallium_flutter/pages/page_c.dart';
       children: [
         AutoRoute(
           initial: true,
-          path: 'tab1',
-          page: PageA,
+          path: 'photo-browser',
+          page: PhotoBrowserPage,
         ),
         AutoRoute(
           path: 'tab2',
-          page: PageB,
+          page: FacesPage,
         ),
         AutoRoute(
           path: 'tab3',

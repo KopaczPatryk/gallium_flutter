@@ -14,9 +14,9 @@ import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 
 import '../pages/dashboard.dart' as _i1;
-import '../pages/page_a.dart' as _i2;
-import '../pages/page_b.dart' as _i3;
+import '../pages/faces_page.dart' as _i3;
 import '../pages/page_c.dart' as _i4;
+import '../pages/photo_browser_page.dart' as _i2;
 
 class AppRouter extends _i5.RootStackRouter {
   AppRouter([_i6.GlobalKey<_i6.NavigatorState>? navigatorKey])
@@ -24,19 +24,19 @@ class AppRouter extends _i5.RootStackRouter {
 
   @override
   final Map<String, _i5.PageFactory> pagesMap = {
-    DashboardScreenRoute.name: (routeData) {
+    DashboardScreen.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i1.DashboardScreen());
     },
-    PageARoute.name: (routeData) {
+    PhotoBrowserRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i2.PageA());
+          routeData: routeData, child: const _i2.PhotoBrowserPage());
     },
-    PageBRoute.name: (routeData) {
+    FacesRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.PageB());
+          routeData: routeData, child: const _i3.FacesPage());
     },
-    PageCRoute.name: (routeData) {
+    RouteC.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.PageC());
     }
@@ -46,54 +46,53 @@ class AppRouter extends _i5.RootStackRouter {
   List<_i5.RouteConfig> get routes => [
         _i5.RouteConfig('/#redirect',
             path: '/', redirectTo: '/dashboard', fullMatch: true),
-        _i5.RouteConfig(DashboardScreenRoute.name,
-            path: '/dashboard',
-            children: [
-              _i5.RouteConfig('#redirect',
-                  path: '',
-                  parent: DashboardScreenRoute.name,
-                  redirectTo: 'tab1',
-                  fullMatch: true),
-              _i5.RouteConfig(PageARoute.name,
-                  path: 'tab1', parent: DashboardScreenRoute.name),
-              _i5.RouteConfig(PageBRoute.name,
-                  path: 'tab2', parent: DashboardScreenRoute.name),
-              _i5.RouteConfig(PageCRoute.name,
-                  path: 'tab3', parent: DashboardScreenRoute.name)
-            ])
+        _i5.RouteConfig(DashboardScreen.name, path: '/dashboard', children: [
+          _i5.RouteConfig('#redirect',
+              path: '',
+              parent: DashboardScreen.name,
+              redirectTo: 'photo-browser',
+              fullMatch: true),
+          _i5.RouteConfig(PhotoBrowserRoute.name,
+              path: 'photo-browser', parent: DashboardScreen.name),
+          _i5.RouteConfig(FacesRoute.name,
+              path: 'tab2', parent: DashboardScreen.name),
+          _i5.RouteConfig(RouteC.name,
+              path: 'tab3', parent: DashboardScreen.name)
+        ])
       ];
 }
 
 /// generated route for
 /// [_i1.DashboardScreen]
-class DashboardScreenRoute extends _i5.PageRouteInfo<void> {
-  const DashboardScreenRoute({List<_i5.PageRouteInfo>? children})
-      : super(DashboardScreenRoute.name,
+class DashboardScreen extends _i5.PageRouteInfo<void> {
+  const DashboardScreen({List<_i5.PageRouteInfo>? children})
+      : super(DashboardScreen.name,
             path: '/dashboard', initialChildren: children);
 
-  static const String name = 'DashboardScreenRoute';
+  static const String name = 'DashboardScreen';
 }
 
 /// generated route for
-/// [_i2.PageA]
-class PageARoute extends _i5.PageRouteInfo<void> {
-  const PageARoute() : super(PageARoute.name, path: 'tab1');
+/// [_i2.PhotoBrowserPage]
+class PhotoBrowserRoute extends _i5.PageRouteInfo<void> {
+  const PhotoBrowserRoute()
+      : super(PhotoBrowserRoute.name, path: 'photo-browser');
 
-  static const String name = 'PageARoute';
+  static const String name = 'PhotoBrowserRoute';
 }
 
 /// generated route for
-/// [_i3.PageB]
-class PageBRoute extends _i5.PageRouteInfo<void> {
-  const PageBRoute() : super(PageBRoute.name, path: 'tab2');
+/// [_i3.FacesPage]
+class FacesRoute extends _i5.PageRouteInfo<void> {
+  const FacesRoute() : super(FacesRoute.name, path: 'tab2');
 
-  static const String name = 'PageBRoute';
+  static const String name = 'FacesRoute';
 }
 
 /// generated route for
 /// [_i4.PageC]
-class PageCRoute extends _i5.PageRouteInfo<void> {
-  const PageCRoute() : super(PageCRoute.name, path: 'tab3');
+class RouteC extends _i5.PageRouteInfo<void> {
+  const RouteC() : super(RouteC.name, path: 'tab3');
 
-  static const String name = 'PageCRoute';
+  static const String name = 'RouteC';
 }

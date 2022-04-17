@@ -11,9 +11,9 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: const [
-        PageARoute(),
-        PageBRoute(),
-        PageCRoute(),
+        PhotoBrowserRoute(),
+        FacesRoute(),
+        RouteC(),
       ],
       builder: (ctx, child, animation) => child,
     );
