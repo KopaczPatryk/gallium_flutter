@@ -11,7 +11,7 @@ class Configuration {
 
   factory Configuration.dev() => Configuration(
         basePath: r'C:\Users\Kopac\Desktop\hasher',
-        thumbnailMaxSize: 50,
+        thumbnailMaxSize: 250,
       );
   factory Configuration.prod() => Configuration(
         basePath: r'E:\Zdjecia',

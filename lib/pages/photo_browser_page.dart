@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:typed_data';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,14 +20,16 @@ class PhotoBrowserPage extends StatelessWidget {
       ),
       body: BlocBuilder<ThumbnailsBloc, ThumbnailsState>(
         builder: (context, state) {
-          if (state is GeneratingThumbnailsState) {
-            // return List.generate(10, (index) => ImageThumbnail();
+          if (state is GeneratingThumbnailsState || state is IdleState) {
+            state as GeneratingThumbnailsState;
             return GridView.builder(
               itemCount: state.allThumbnails.length,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 8,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 8,
               ),
-              itemBuilder: (ctx, index) => Container(),
+              itemBuilder: (ctx, index) => ImageThumbnail(
+                bytes: state.allThumbnails[index].imageBytes,
+              ),
             );
           } else {
             return Text('No images to show lol');
@@ -40,12 +44,15 @@ class PhotoBrowserPage extends StatelessWidget {
 }
 
 class ImageThumbnail extends StatelessWidget {
-  const ImageThumbnail({Key? key}) : super(key: key);
+  final Uint8List bytes;
+
+  const ImageThumbnail({
+    required this.bytes,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-    );
+    return Image.memory(bytes);
   }
 }

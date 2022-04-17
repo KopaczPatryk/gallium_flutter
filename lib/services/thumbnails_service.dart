@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:gallium_flutter/pages/photo_browser_page.dart';
 import 'package:gallium_flutter/services/thumbnails_service_events.dart';
@@ -22,10 +23,22 @@ class SourceImage implements Comparable<Thumbnail> {
 
 class Thumbnail {
   final FileSystemEntity file;
+  Uint8List? _imageBytes;
 
   get filename => p.basenameWithoutExtension(file.path);
 
-  const Thumbnail(this.file);
+  Uint8List get imageBytes {
+    var tempfile = FileImage(File(file.path));
+    final bytes = tempfile.file.readAsBytesSync();
+
+    _imageBytes ??= bytes;
+    return _imageBytes!;
+  }
+
+  Thumbnail({
+    required this.file,
+    Uint8List? imageBytes,
+  }) : _imageBytes = imageBytes;
 }
 
 class ThumbnailsBloc extends Bloc<dynamic, ThumbnailsState> {
@@ -57,7 +70,7 @@ class ThumbnailsBloc extends Bloc<dynamic, ThumbnailsState> {
     final srcFolder = Directory(thumbnailsPath)..createSync();
     final srcFiles = srcFolder.listSync().whereType<File>();
 
-    final files = srcFiles.map((e) => Thumbnail(e)).toList();
+    final files = srcFiles.map((e) => Thumbnail(file: e)).toList();
     return files;
   }
 
@@ -82,7 +95,7 @@ class ThumbnailsBloc extends Bloc<dynamic, ThumbnailsState> {
 
     final result = File(path);
     result.writeAsBytesSync(img.encodePng(thumbnail));
-    return Thumbnail(result);
+    return Thumbnail(file: result, imageBytes: bytes);
   }
 
   Future<void> _onInit(Init event, Emitter<ThumbnailsState> emit) async {
