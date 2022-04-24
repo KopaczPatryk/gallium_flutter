@@ -14,8 +14,8 @@ import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 
 import '../pages/dashboard.dart' as _i1;
-import '../pages/faces_page.dart' as _i3;
 import '../pages/page_c.dart' as _i4;
+import '../pages/person_browser_page.dart' as _i3;
 import '../pages/photo_browser_page.dart' as _i2;
 
 class AppRouter extends _i5.RootStackRouter {
@@ -32,9 +32,9 @@ class AppRouter extends _i5.RootStackRouter {
       return _i5.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i2.PhotoBrowserPage());
     },
-    FacesRoute.name: (routeData) {
+    PersonBrowserRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.FacesPage());
+          routeData: routeData, child: const _i3.PersonBrowserPage());
     },
     RouteC.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
@@ -54,8 +54,8 @@ class AppRouter extends _i5.RootStackRouter {
               fullMatch: true),
           _i5.RouteConfig(PhotoBrowserRoute.name,
               path: 'photo-browser', parent: DashboardScreen.name),
-          _i5.RouteConfig(FacesRoute.name,
-              path: 'tab2', parent: DashboardScreen.name),
+          _i5.RouteConfig(PersonBrowserRoute.name,
+              path: 'people-browser', parent: DashboardScreen.name),
           _i5.RouteConfig(RouteC.name,
               path: 'tab3', parent: DashboardScreen.name)
         ])
@@ -82,11 +82,12 @@ class PhotoBrowserRoute extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.FacesPage]
-class FacesRoute extends _i5.PageRouteInfo<void> {
-  const FacesRoute() : super(FacesRoute.name, path: 'tab2');
+/// [_i3.PersonBrowserPage]
+class PersonBrowserRoute extends _i5.PageRouteInfo<void> {
+  const PersonBrowserRoute()
+      : super(PersonBrowserRoute.name, path: 'people-browser');
 
-  static const String name = 'FacesRoute';
+  static const String name = 'PersonBrowserRoute';
 }
 
 /// generated route for

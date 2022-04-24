@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:gallium_flutter/pages/dashboard.dart';
 import 'package:gallium_flutter/pages/photo_browser_page.dart';
-import 'package:gallium_flutter/pages/faces_page.dart';
+import 'package:gallium_flutter/pages/person_browser_page.dart';
 import 'package:gallium_flutter/pages/page_c.dart';
 
 @MaterialAutoRouter(
@@ -18,8 +18,8 @@ import 'package:gallium_flutter/pages/page_c.dart';
           page: PhotoBrowserPage,
         ),
         AutoRoute(
-          path: 'tab2',
-          page: FacesPage,
+          path: 'people-browser',
+          page: PersonBrowserPage,
         ),
         AutoRoute(
           path: 'tab3',

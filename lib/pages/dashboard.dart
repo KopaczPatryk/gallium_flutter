@@ -12,7 +12,7 @@ class DashboardScreen extends StatelessWidget {
     return AutoTabsRouter(
       routes: const [
         PhotoBrowserRoute(),
-        FacesRoute(),
+        PersonBrowserRoute(),
         RouteC(),
       ],
       builder: (ctx, child, animation) => child,
