@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
@@ -24,6 +25,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      scrollBehavior: MyScrollBehavior(),
       title: 'Gallium flutter',
       routeInformationParser: _router.defaultRouteParser(),
       routerDelegate: _router.delegate(),
@@ -41,4 +43,12 @@ class App extends StatelessWidget {
       ),
     );
   }
+}
+
+class MyScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
