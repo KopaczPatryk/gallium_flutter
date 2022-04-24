@@ -8,15 +8,20 @@ import 'package:gallium_flutter/services/thumbnails/thumbnails_service_states.da
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 
 class ImageThumbnail extends StatelessWidget {
+  final VoidCallback? onClick;
   final Uint8List bytes;
 
   const ImageThumbnail({
     required this.bytes,
+    this.onClick,
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Image.memory(bytes);
+  Widget build(BuildContext context) => InkWell(
+        onTap: onClick,
+        child: Image.memory(bytes),
+      );
 }
 
 class PhotoBrowserPage extends StatelessWidget {
@@ -38,6 +43,7 @@ class PhotoBrowserPage extends StatelessWidget {
                 crossAxisCount: 8,
               ),
               itemBuilder: (ctx, index) => ImageThumbnail(
+                onClick: () {},
                 bytes: state.allThumbnails[index].imageBytes,
               ),
             );
