@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
   final TabsRouter router;
+
   const BottomNavBar({
     required this.router,
     Key? key,
@@ -14,9 +15,9 @@ class BottomNavBar extends StatelessWidget {
       currentIndex: router.activeIndex,
       onTap: router.setActiveIndex,
       items: const [
-        BottomNavigationBarItem(label: 'Photos', icon: Text('Photos')),
-        BottomNavigationBarItem(label: 'People', icon: Text('People')),
-        BottomNavigationBarItem(label: 'faces', icon: Text('faces')),
+        BottomNavigationBarItem(label: 'Photos', icon: Icon(Icons.photo)),
+        BottomNavigationBarItem(label: 'People', icon: Icon(Icons.person)),
+        BottomNavigationBarItem(label: 'Faces', icon: Icon(Icons.face)),
       ],
     );
   }
