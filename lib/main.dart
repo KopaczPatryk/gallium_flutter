@@ -1,13 +1,13 @@
-import 'dart:io';
+// ignore_for_file: avoid_print
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/app.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/services/thumbnails_service.dart';
-import 'package:gallium_flutter/services/thumbnails_service_events.dart';
+import 'package:gallium_flutter/services/thumbnails/thumbnails_service.dart';
+import 'package:gallium_flutter/services/thumbnails/thumbnails_service_events.dart';
+
 import 'dart:async';
-import 'package:path/path.dart' as p;
 
 class SimpleBlocObserver extends BlocObserver {
   @override

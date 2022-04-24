@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:typed_data';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gallium_flutter/services/thumbnails_service.dart';
-import 'package:gallium_flutter/services/thumbnails_service_states.dart';
+import 'package:gallium_flutter/services/thumbnails/thumbnails_service.dart';
+import 'package:gallium_flutter/services/thumbnails/thumbnails_service_states.dart';
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 
 class PhotoBrowserPage extends StatelessWidget {
@@ -20,11 +18,10 @@ class PhotoBrowserPage extends StatelessWidget {
       ),
       body: BlocBuilder<ThumbnailsBloc, ThumbnailsState>(
         builder: (context, state) {
-          if (state is GeneratingThumbnailsState || state is IdleState) {
-            state as GeneratingThumbnailsState;
+          if (state is GeneratingThumbnailsState) {
             return GridView.builder(
               itemCount: state.allThumbnails.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 8,
               ),
               itemBuilder: (ctx, index) => ImageThumbnail(
@@ -32,7 +29,7 @@ class PhotoBrowserPage extends StatelessWidget {
               ),
             );
           } else {
-            return Text('No images to show lol');
+            return const Text('No images to show lol');
           }
         },
       ),
@@ -52,7 +49,5 @@ class ImageThumbnail extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Image.memory(bytes);
-  }
+  Widget build(BuildContext context) => Image.memory(bytes);
 }

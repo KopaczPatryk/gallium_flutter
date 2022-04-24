@@ -2,9 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
-import 'package:image_hasher/image_hasher.dart';
-import 'package:image_hasher/utils/hash_comparator.dart';
+// import 'package:image/image.dart' as img;
+// import 'package:image_hasher/image_hasher.dart';
 
 class DualComparison extends StatefulWidget {
   final String fileA, fileB;
@@ -21,7 +20,7 @@ class DualComparison extends StatefulWidget {
 
 class _DualComparisonState extends State<DualComparison> {
   late List<Uint8List> imagesBytes;
-  late double similarity;
+  late double similarity = 0;
 
   @override
   void initState() {
@@ -34,23 +33,23 @@ class _DualComparisonState extends State<DualComparison> {
       return pixels;
     }).toList();
 
-    final hashFutures = imagesBytes.map((image) {
-      final resultImage = img.decodeImage(image);
-      const hasher = ImageHasher();
+    // final hashFutures = imagesBytes.map((image) {
+    //   final resultImage = img.decodeImage(image);
+    //   const hasher = ImageHasher();
 
-      if (resultImage == null) {
-        throw Exception('No codec for image');
-      } else {
-        return hasher.getImageHash(resultImage);
-      }
-    }).toList();
+    //   if (resultImage == null) {
+    //     throw Exception('No codec for image');
+    //   } else {
+    //     return hasher.getImageHash(resultImage);
+    //   }
+    // }).toList();
 
     // final List<Hash> hashes = [];
     // hashFutures.first.then(hashes.add);
     // hashFutures.last.then(hashes.add);
 
-    similarity =
-        HashComparator.compareHashes(hashFutures.first, hashFutures.last);
+    // similarity =
+    //     HashComparator.compareHashes(hashFutures.first, hashFutures.last);
 
     super.initState();
   }

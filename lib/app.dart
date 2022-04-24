@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
-import 'package:gallium_flutter/services/thumbnails_service.dart';
-import 'package:gallium_flutter/services/thumbnails_service_events.dart';
+import 'package:gallium_flutter/services/thumbnails/thumbnails_service.dart';
+import 'package:gallium_flutter/services/thumbnails/thumbnails_service_events.dart';
 
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class App extends StatelessWidget {
     Key? key,
   })  : _configuration = configuration,
         _thumbnailsBloc = ThumbnailsBloc(configuration: configuration)
-          ..add(Init()),
+          ..add(Init(wipeCache: configuration.forceRegenThumbnails)),
         _router = AppRouter(),
         super(key: key);
 

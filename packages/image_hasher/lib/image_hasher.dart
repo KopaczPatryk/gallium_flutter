@@ -25,23 +25,22 @@ class ImageHasher {
         a: getAlpha(color) ~/ _depthDivider,
       );
 
-  Hash getImageHash(Image src) {
-    // final completer = Completer<Hash>();
-    final image = copyResize(src, width: size, height: size);
+  FutureOr<Hash> getImageHash(Image src) {
+    final future = Future(() {
+      final image = copyResize(src, width: size, height: size);
+      final hash = Hash(hashDepth: depth);
 
-    final hash = Hash(hashDepth: depth);
+      for (var x = 0; x < image.width; x++) {
+        for (var y = 0; y < image.height; y++) {
+          final intPixel = image.getPixel(x, y);
 
-    for (var x = 0; x < image.width; x++) {
-      for (var y = 0; y < image.height; y++) {
-        final intPixel = image.getPixel(x, y);
-
-        final hashlet = _colorToHashlet(abgrToArgb(intPixel));
-        hash.add(hashlet);
+          final hashlet = _colorToHashlet(abgrToArgb(intPixel));
+          hash.add(hashlet);
+        }
       }
-    }
-    // completer.complete(hash);
-    // return completer.future;
+      return hash;
+    });
 
-    return hash;
+    return future;
   }
 }

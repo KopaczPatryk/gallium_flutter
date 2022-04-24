@@ -21,6 +21,7 @@ dependencies:
   image_hasher:
     path: 'packages/image_hasher'
   auto_route: ^3.2.3
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
