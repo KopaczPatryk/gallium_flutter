@@ -5,8 +5,6 @@ import 'package:image/image.dart';
 import 'models/hash.dart';
 import 'models/hashlet.dart';
 
-import 'utils/color_space_converter.dart';
-
 class ImageHasher {
   final int size;
   final int depth;
@@ -25,6 +23,12 @@ class ImageHasher {
         a: getAlpha(color) ~/ _depthDivider,
       );
 
+  int _abgrToArgb(int abgrColor) {
+    int r = (abgrColor >> 16) & 0xFF;
+    int b = abgrColor & 0xFF;
+    return (abgrColor & 0xFF00FF00) | (b << 16) | r;
+  }
+
   FutureOr<Hash> getImageHash(Image src) {
     final future = Future(() {
       final image = copyResize(src, width: size, height: size);
@@ -34,7 +38,7 @@ class ImageHasher {
         for (var y = 0; y < image.height; y++) {
           final intPixel = image.getPixel(x, y);
 
-          final hashlet = _colorToHashlet(abgrToArgb(intPixel));
+          final hashlet = _colorToHashlet(_abgrToArgb(intPixel));
           hash.add(hashlet);
         }
       }
