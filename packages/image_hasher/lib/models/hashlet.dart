@@ -1,12 +1,26 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 
-class Hashlet extends Equatable {
-  final int r, g, b, a;
+part 'hashlet.g.dart';
+
+@HiveType(typeId: 1)
+class Hashlet extends HiveObject with EquatableMixin {
+  @HiveField(0)
+  final int r;
+
+  @HiveField(1)
+  final int g;
+
+  @HiveField(2)
+  final int b;
+
+  @HiveField(3)
+  final int a;
 
   @override
   List<Object> get props => [r, g, b, a];
 
-  const Hashlet({
+  Hashlet({
     required this.r,
     required this.g,
     required this.b,

@@ -6,7 +6,7 @@ void main() {
   test('hashes with same const hashlets are equal', () {
     final a = Hash(hashDepth: 8);
     final b = Hash(hashDepth: 8);
-    const hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
 
     a.add(hashlet);
     b.add(hashlet);
@@ -17,8 +17,8 @@ void main() {
   test('hashes with same hashlets are equal', () {
     final a = Hash(hashDepth: 8);
     final b = Hash(hashDepth: 8);
-    const hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
-    const hashlet2 = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final hashlet2 = Hashlet(r: 1, g: 2, b: 3, a: 4);
 
     a.add(hashlet);
     b.add(hashlet2);
@@ -30,7 +30,7 @@ void main() {
     final a = Hash(hashDepth: 8);
     final b = Hash(hashDepth: 8);
 
-    const hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
     // const hashlet2 = Hashlet(r: 1, g: 2, b: 3, a: 4);
 
     a.add(hashlet);
@@ -43,8 +43,8 @@ void main() {
     final a = Hash(hashDepth: 8);
     final b = Hash(hashDepth: 4);
 
-    const hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
-    const hashlet2 = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final hashlet2 = Hashlet(r: 1, g: 2, b: 3, a: 4);
 
     a.add(hashlet);
     b.add(hashlet2);
