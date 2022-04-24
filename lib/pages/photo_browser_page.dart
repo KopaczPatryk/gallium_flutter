@@ -7,6 +7,18 @@ import 'package:gallium_flutter/services/thumbnails/thumbnails_service.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_service_states.dart';
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 
+class ImageThumbnail extends StatelessWidget {
+  final Uint8List bytes;
+
+  const ImageThumbnail({
+    required this.bytes,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Image.memory(bytes);
+}
+
 class PhotoBrowserPage extends StatelessWidget {
   const PhotoBrowserPage({Key? key}) : super(key: key);
 
@@ -20,6 +32,7 @@ class PhotoBrowserPage extends StatelessWidget {
         builder: (context, state) {
           if (state is GeneratingThumbnailsState) {
             return GridView.builder(
+              controller: ScrollController(),
               itemCount: state.allThumbnails.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 8,
@@ -38,16 +51,4 @@ class PhotoBrowserPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class ImageThumbnail extends StatelessWidget {
-  final Uint8List bytes;
-
-  const ImageThumbnail({
-    required this.bytes,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Image.memory(bytes);
 }
