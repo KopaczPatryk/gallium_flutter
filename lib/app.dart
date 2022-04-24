@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
+import 'package:gallium_flutter/repositories/photos_repository.dart';
+import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
 import 'package:gallium_flutter/services/database/database_bloc.dart';
 import 'package:gallium_flutter/services/database/database_bloc_events.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_service.dart';
@@ -13,14 +15,21 @@ import 'package:provider/provider.dart';
 class App extends StatelessWidget {
   final Configuration _configuration;
   final AppRouter _router;
+
   late final ThumbnailsBloc _thumbnailsBloc;
   late final DatabaseBloc _databaseBloc;
 
   App({
     required Configuration configuration,
+    required ThumbnailsRepository thumbnailsRepo,
+    required PhotosRepository photosRepo,
     Key? key,
   })  : _configuration = configuration,
-        _thumbnailsBloc = ThumbnailsBloc(configuration: configuration),
+        _thumbnailsBloc = ThumbnailsBloc(
+          configuration: configuration,
+          thumbnailsRepository: thumbnailsRepo,
+          photosRepository: photosRepo,
+        ),
         _databaseBloc = DatabaseBloc(configuration),
         _router = AppRouter(),
         super(key: key) {
