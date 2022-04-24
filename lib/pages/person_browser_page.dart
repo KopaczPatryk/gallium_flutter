@@ -19,7 +19,14 @@ class PersonBrowserPage extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         itemCount: 5,
         separatorBuilder: (_, __) => Container(height: 8),
-        itemBuilder: (context, index) => PersonView(person: Person.johnDoe()),
+        itemBuilder: (context, index) => PersonView(
+          person: Person.johnDoe(),
+          onClick: () => ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Navigate to profile page"),
+            ),
+          ),
+        ),
       ),
       bottomNavigationBar: BottomNavBar(
         router: context.tabsRouter,
