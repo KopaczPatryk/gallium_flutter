@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/models/thumbnail.dart';
-import 'package:gallium_flutter/repositories/files_provider.dart';
+import 'package:gallium_flutter/repositories/providers/files_provider.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_service_events.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_service_states.dart';

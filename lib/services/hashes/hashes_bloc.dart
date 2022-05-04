@@ -1,49 +1,46 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/services/database/database_bloc.dart';
-import 'package:gallium_flutter/services/database/database_bloc_states.dart';
-
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:gallium_flutter/repositories/hashes_repository.dart';
+import 'package:gallium_flutter/repositories/photos_repository.dart';
+import 'package:image_hasher/image_hasher.dart';
 import 'package:image_hasher/models/hash.dart';
 
 import 'hashes_bloc_events.dart';
 import 'hashes_bloc_states.dart';
+import 'package:image/image.dart' as img;
 
 class HashesBloc extends Bloc<HashesEvent, HashesState> {
   final Configuration _cfg;
-  final DatabaseBloc _databaseBloc;
-  late final StreamSubscription<dynamic> _databaseBlocSubscription;
+  final HashesRepository _hashRepo;
+  final PhotosRepository _photosRepository;
 
   HashesBloc({
-    required DatabaseBloc databaseBloc,
     required Configuration configuration,
+    required PhotosRepository photosRepo,
+    required HashesRepository hashRepo,
   })  : _cfg = configuration,
-        _databaseBloc = databaseBloc,
+        _hashRepo = hashRepo,
+        _photosRepository = photosRepo,
         super(HashesInitial()) {
     on<HashesInit>(_init);
-
-    _databaseBlocSubscription = _databaseBloc.stream.listen((event) {
-      if (event is DatabaseStarted) {
-        add(HashesInit());
-      }
-    });
   }
 
   FutureOr<void> _init(HashesInit event, Emitter<HashesState> emit) async {
     emit(HashesStarting());
 
-    
+    final photos = await _photosRepository.getExistingPhotos();
 
-    emit(HashesStarted());
-  }
+    List<Hash> hashes = [];
+    const hasher = ImageHasher();
 
-  @override
-  Future<void> close() {
-    _databaseBlocSubscription.cancel();
-    return super.close();
+    for (var photo in photos) {
+      final image = img.decodeImage(await photo.file.readAsBytes());
+      final hash = await hasher.getImageHash(image!);
+      hashes.add(hash);
+    }
+
+    emit(FinishedState(hashes: hashes));
   }
 }

@@ -5,8 +5,6 @@ import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
-import 'package:gallium_flutter/services/database/database_bloc.dart';
-import 'package:gallium_flutter/services/database/database_bloc_events.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_service.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_service_events.dart';
 
@@ -17,7 +15,6 @@ class App extends StatelessWidget {
   final AppRouter _router;
 
   late final ThumbnailsBloc _thumbnailsBloc;
-  late final DatabaseBloc _databaseBloc;
 
   App({
     required Configuration configuration,
@@ -30,11 +27,9 @@ class App extends StatelessWidget {
           thumbnailsRepository: thumbnailsRepo,
           photosRepository: photosRepo,
         ),
-        _databaseBloc = DatabaseBloc(configuration),
         _router = AppRouter(),
         super(key: key) {
     _thumbnailsBloc.add(Init(wipeCache: configuration.forceRegenThumbnails));
-    _databaseBloc.add(DatabaseInit());
   }
 
   @override
@@ -47,7 +42,6 @@ class App extends StatelessWidget {
       theme: ThemeData.light(),
       builder: (context, router) => MultiBlocProvider(
         providers: [
-          BlocProvider.value(value: _databaseBloc),
           BlocProvider.value(value: _thumbnailsBloc),
         ],
         child: MultiProvider(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/app.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/repositories/files_provider.dart';
+import 'package:gallium_flutter/repositories/providers/files_provider.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
 

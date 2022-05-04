@@ -29,12 +29,11 @@ class ThumbnailsBloc extends Bloc<dynamic, ThumbnailsState> {
     on<Init>(_onInit);
   }
 
-
   Future<void> _onInit(Init event, Emitter<ThumbnailsState> emit) async {
     if (event.wipeCache) thumbnailsRepository.wipe();
     emit(const GeneratingThumbnailsState(allThumbnails: []));
 
-    final photos = await photosRepository.getPhotos();
+    final photos = await photosRepository.getExistingPhotos();
     final thumbnails = await thumbnailsRepository.getExistingThumbnails();
 
     for (final photo in photos) {
