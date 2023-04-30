@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
+import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/models/thumbnail.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
-import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_service_events.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_service_states.dart';
 import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as p;
-import 'package:bloc/bloc.dart';
-import 'package:gallium_flutter/cfg/configuration.dart';
 
 class ThumbnailsRepository {
   final Configuration _configuration;
@@ -98,6 +95,10 @@ class ThumbnailsRepository {
       _configuration.basePath,
       _configuration.thumbnailsFolder,
     );
-    Directory(thumbnailsPath).deleteSync(recursive: true);
+    try {
+      Directory(thumbnailsPath).deleteSync(recursive: true);
+    } catch (e) {
+      print('Nothing to wipe');
+    }
   }
 }

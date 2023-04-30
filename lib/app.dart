@@ -5,16 +5,14 @@ import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_service.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_service_events.dart';
-
+import 'package:gallium_flutter/services/thumbnails/thumbnails_cubit.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   final Configuration _configuration;
   final AppRouter _router;
 
-  late final ThumbnailsBloc _thumbnailsBloc;
+  late final ThumbnailsCubit _thumbnailsCubit;
 
   App({
     required Configuration configuration,
@@ -22,14 +20,14 @@ class App extends StatelessWidget {
     required PhotosRepository photosRepo,
     Key? key,
   })  : _configuration = configuration,
-        _thumbnailsBloc = ThumbnailsBloc(
+        _thumbnailsCubit = ThumbnailsCubit(
           configuration: configuration,
           thumbnailsRepository: thumbnailsRepo,
           photosRepository: photosRepo,
         ),
         _router = AppRouter(),
         super(key: key) {
-    _thumbnailsBloc.add(Init(wipeCache: configuration.forceRegenThumbnails));
+    _thumbnailsCubit.init(wipeCache: configuration.forceRegenThumbnails);
   }
 
   @override
@@ -42,7 +40,7 @@ class App extends StatelessWidget {
       theme: ThemeData.light(),
       builder: (context, router) => MultiBlocProvider(
         providers: [
-          BlocProvider.value(value: _thumbnailsBloc),
+          BlocProvider.value(value: _thumbnailsCubit),
         ],
         child: MultiProvider(
           providers: [

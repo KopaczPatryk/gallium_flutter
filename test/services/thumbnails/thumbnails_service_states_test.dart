@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gallium_flutter/models/thumbnail.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_service_states.dart';
+import 'package:gallium_flutter/services/thumbnails/thumbnails_state.dart';
 
 void main() {
   test('State with same thumbnail is equal', () {

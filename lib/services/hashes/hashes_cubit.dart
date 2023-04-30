@@ -4,30 +4,27 @@ import 'package:bloc/bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/repositories/hashes_repository.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
+import 'package:image/image.dart' as img;
 import 'package:image_hasher/image_hasher.dart';
 import 'package:image_hasher/models/hash.dart';
 
-import 'hashes_bloc_events.dart';
-import 'hashes_bloc_states.dart';
-import 'package:image/image.dart' as img;
+import 'hashes_state.dart';
 
-class HashesBloc extends Bloc<HashesEvent, HashesState> {
+class HashesCubit extends Cubit<HashesState> {
   final Configuration _cfg;
   final HashesRepository _hashRepo;
   final PhotosRepository _photosRepository;
 
-  HashesBloc({
+  HashesCubit({
     required Configuration configuration,
     required PhotosRepository photosRepo,
     required HashesRepository hashRepo,
   })  : _cfg = configuration,
         _hashRepo = hashRepo,
         _photosRepository = photosRepo,
-        super(HashesInitial()) {
-    on<HashesInit>(_init);
-  }
+        super(HashesInitial());
 
-  FutureOr<void> _init(HashesInit event, Emitter<HashesState> emit) async {
+  Future<void> init() async {
     emit(HashesStarting());
 
     final photos = await _photosRepository.getExistingPhotos();

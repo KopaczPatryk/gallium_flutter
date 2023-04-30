@@ -5,10 +5,9 @@ import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/thumbnail.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_service_events.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_service_states.dart';
+import 'package:gallium_flutter/services/thumbnails/thumbnails_state.dart';
 
-class ThumbnailsBloc extends Bloc<dynamic, ThumbnailsState> {
+class ThumbnailsCubit extends Cubit<ThumbnailsState> {
   final Configuration _configuration;
 
   final ThumbnailsRepository thumbnailsRepository;
@@ -16,33 +15,34 @@ class ThumbnailsBloc extends Bloc<dynamic, ThumbnailsState> {
 
   final List<Thumbnail> calculated = [];
 
-  ThumbnailsBloc({
+  ThumbnailsCubit({
     required Configuration configuration,
     required this.thumbnailsRepository,
     required this.photosRepository,
   })  : _configuration = configuration,
-        super(InitialState()) {
-    on<Init>(_onInit);
-  }
+        super(InitialState());
 
-  Future<void> _onInit(Init event, Emitter<ThumbnailsState> emit) async {
-    if (event.wipeCache) thumbnailsRepository.wipe();
-    emit(const GeneratingThumbnailsState(allThumbnails: []));
+  Future<void> init({
+    required bool wipeCache,
+  }) async {
+    if (wipeCache) thumbnailsRepository.wipe();
+    emit(const GeneratingThumbnailsState());
 
     final photos = await photosRepository.getExistingPhotos();
     final thumbnails = await thumbnailsRepository.getExistingThumbnails();
 
     for (final photo in photos) {
-      late Thumbnail thumbnail;
+      late final Thumbnail thumbnail;
       try {
-        thumbnail = thumbnails
-            .firstWhere((thumbnail) => thumbnail.filename == photo.filename);
-        calculated.add(thumbnail);
+        thumbnail = thumbnails.firstWhere(
+          (thumbnail) => thumbnail.filename == photo.filename,
+        );
       } on StateError {
         thumbnail = await thumbnailsRepository.createThumbnail(photo);
-        calculated.add(thumbnail);
       } finally {
+        calculated.add(thumbnail);
         await Future.delayed(const Duration(milliseconds: 1), () => null);
+
         emit(GeneratedThumbnailState(
           allThumbnails: calculated,
           newThumbnail: thumbnail,

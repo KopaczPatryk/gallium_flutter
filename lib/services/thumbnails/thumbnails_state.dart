@@ -14,7 +14,7 @@ class GeneratingThumbnailsState extends ThumbnailsState with EquatableMixin {
   List<Object> get props => [allThumbnails];
 
   const GeneratingThumbnailsState({
-    required this.allThumbnails,
+    this.allThumbnails = const [],
   });
 }
 

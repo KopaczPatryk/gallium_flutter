@@ -14,7 +14,7 @@
 import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 
-import '../pages/dashboard.dart' as _i1;
+import '../pages/dashboard_page.dart' as _i1;
 import '../pages/page_c.dart' as _i4;
 import '../pages/person_browser_page.dart' as _i3;
 import '../pages/photo_browser_page.dart' as _i2;
@@ -25,10 +25,10 @@ class AppRouter extends _i5.RootStackRouter {
 
   @override
   final Map<String, _i5.PageFactory> pagesMap = {
-    DashboardScreen.name: (routeData) {
+    DashboardRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i1.DashboardScreen(),
+        child: const _i1.DashboardPage(),
       );
     },
     PhotoBrowserRoute.name: (routeData) {
@@ -60,30 +60,30 @@ class AppRouter extends _i5.RootStackRouter {
           fullMatch: true,
         ),
         _i5.RouteConfig(
-          DashboardScreen.name,
+          DashboardRoute.name,
           path: '/dashboard',
           children: [
             _i5.RouteConfig(
               '#redirect',
               path: '',
-              parent: DashboardScreen.name,
+              parent: DashboardRoute.name,
               redirectTo: 'photo-browser',
               fullMatch: true,
             ),
             _i5.RouteConfig(
               PhotoBrowserRoute.name,
               path: 'photo-browser',
-              parent: DashboardScreen.name,
+              parent: DashboardRoute.name,
             ),
             _i5.RouteConfig(
               PersonBrowserRoute.name,
               path: 'people-browser',
-              parent: DashboardScreen.name,
+              parent: DashboardRoute.name,
             ),
             _i5.RouteConfig(
               RouteC.name,
               path: 'tab3',
-              parent: DashboardScreen.name,
+              parent: DashboardRoute.name,
             ),
           ],
         ),
@@ -91,16 +91,16 @@ class AppRouter extends _i5.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.DashboardScreen]
-class DashboardScreen extends _i5.PageRouteInfo<void> {
-  const DashboardScreen({List<_i5.PageRouteInfo>? children})
+/// [_i1.DashboardPage]
+class DashboardRoute extends _i5.PageRouteInfo<void> {
+  const DashboardRoute({List<_i5.PageRouteInfo>? children})
       : super(
-          DashboardScreen.name,
+          DashboardRoute.name,
           path: '/dashboard',
           initialChildren: children,
         );
 
-  static const String name = 'DashboardScreen';
+  static const String name = 'DashboardRoute';
 }
 
 /// generated route for
