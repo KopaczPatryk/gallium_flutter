@@ -1,16 +1,12 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
-import 'package:gallium_flutter/models/source_image.dart';
+
+import 'package:bloc/bloc.dart';
+import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/thumbnail.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_service_events.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_service_states.dart';
-import 'package:image/image.dart' as img;
-import 'package:path/path.dart' as p;
-import 'package:bloc/bloc.dart';
-import 'package:gallium_flutter/cfg/configuration.dart';
 
 class ThumbnailsBloc extends Bloc<dynamic, ThumbnailsState> {
   final Configuration _configuration;

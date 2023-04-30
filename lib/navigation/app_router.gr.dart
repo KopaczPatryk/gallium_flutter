@@ -10,6 +10,7 @@
 //
 // ignore_for_file: type=lint
 
+// ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 
@@ -26,39 +27,66 @@ class AppRouter extends _i5.RootStackRouter {
   final Map<String, _i5.PageFactory> pagesMap = {
     DashboardScreen.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.DashboardScreen());
+        routeData: routeData,
+        child: const _i1.DashboardScreen(),
+      );
     },
     PhotoBrowserRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i2.PhotoBrowserPage());
+        routeData: routeData,
+        child: const _i2.PhotoBrowserPage(),
+      );
     },
     PersonBrowserRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.PersonBrowserPage());
+        routeData: routeData,
+        child: const _i3.PersonBrowserPage(),
+      );
     },
     RouteC.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.PageC());
-    }
+        routeData: routeData,
+        child: const _i4.PageC(),
+      );
+    },
   };
 
   @override
   List<_i5.RouteConfig> get routes => [
-        _i5.RouteConfig('/#redirect',
-            path: '/', redirectTo: '/dashboard', fullMatch: true),
-        _i5.RouteConfig(DashboardScreen.name, path: '/dashboard', children: [
-          _i5.RouteConfig('#redirect',
+        _i5.RouteConfig(
+          '/#redirect',
+          path: '/',
+          redirectTo: '/dashboard',
+          fullMatch: true,
+        ),
+        _i5.RouteConfig(
+          DashboardScreen.name,
+          path: '/dashboard',
+          children: [
+            _i5.RouteConfig(
+              '#redirect',
               path: '',
               parent: DashboardScreen.name,
               redirectTo: 'photo-browser',
-              fullMatch: true),
-          _i5.RouteConfig(PhotoBrowserRoute.name,
-              path: 'photo-browser', parent: DashboardScreen.name),
-          _i5.RouteConfig(PersonBrowserRoute.name,
-              path: 'people-browser', parent: DashboardScreen.name),
-          _i5.RouteConfig(RouteC.name,
-              path: 'tab3', parent: DashboardScreen.name)
-        ])
+              fullMatch: true,
+            ),
+            _i5.RouteConfig(
+              PhotoBrowserRoute.name,
+              path: 'photo-browser',
+              parent: DashboardScreen.name,
+            ),
+            _i5.RouteConfig(
+              PersonBrowserRoute.name,
+              path: 'people-browser',
+              parent: DashboardScreen.name,
+            ),
+            _i5.RouteConfig(
+              RouteC.name,
+              path: 'tab3',
+              parent: DashboardScreen.name,
+            ),
+          ],
+        ),
       ];
 }
 
@@ -66,8 +94,11 @@ class AppRouter extends _i5.RootStackRouter {
 /// [_i1.DashboardScreen]
 class DashboardScreen extends _i5.PageRouteInfo<void> {
   const DashboardScreen({List<_i5.PageRouteInfo>? children})
-      : super(DashboardScreen.name,
-            path: '/dashboard', initialChildren: children);
+      : super(
+          DashboardScreen.name,
+          path: '/dashboard',
+          initialChildren: children,
+        );
 
   static const String name = 'DashboardScreen';
 }
@@ -76,7 +107,10 @@ class DashboardScreen extends _i5.PageRouteInfo<void> {
 /// [_i2.PhotoBrowserPage]
 class PhotoBrowserRoute extends _i5.PageRouteInfo<void> {
   const PhotoBrowserRoute()
-      : super(PhotoBrowserRoute.name, path: 'photo-browser');
+      : super(
+          PhotoBrowserRoute.name,
+          path: 'photo-browser',
+        );
 
   static const String name = 'PhotoBrowserRoute';
 }
@@ -85,7 +119,10 @@ class PhotoBrowserRoute extends _i5.PageRouteInfo<void> {
 /// [_i3.PersonBrowserPage]
 class PersonBrowserRoute extends _i5.PageRouteInfo<void> {
   const PersonBrowserRoute()
-      : super(PersonBrowserRoute.name, path: 'people-browser');
+      : super(
+          PersonBrowserRoute.name,
+          path: 'people-browser',
+        );
 
   static const String name = 'PersonBrowserRoute';
 }
@@ -93,7 +130,11 @@ class PersonBrowserRoute extends _i5.PageRouteInfo<void> {
 /// generated route for
 /// [_i4.PageC]
 class RouteC extends _i5.PageRouteInfo<void> {
-  const RouteC() : super(RouteC.name, path: 'tab3');
+  const RouteC()
+      : super(
+          RouteC.name,
+          path: 'tab3',
+        );
 
   static const String name = 'RouteC';
 }
