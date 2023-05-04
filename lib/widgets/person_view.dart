@@ -31,7 +31,9 @@ class PersonView extends StatelessWidget {
               child: AvatarPlaceholder(),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(
+            width: 8,
+          ),
           Column(
             children: [
               Text(

@@ -31,14 +31,20 @@ class ImageHasher {
 
   FutureOr<Hash> getImageHash(Image src) {
     final future = Future(() {
-      final image = copyResize(src, width: size, height: size);
-      final hash = Hash(hashDepth: depth);
+      final image = copyResize(
+        src,
+        width: size,
+        height: size,
+      );
+      final hash = Hash(
+        hashDepth: depth,
+      );
 
       for (var x = 0; x < image.width; x++) {
         for (var y = 0; y < image.height; y++) {
-          final intPixel = image.getPixel(x, y);
+          final abgrPixel = image.getPixel(x, y);
 
-          final hashlet = _colorToHashlet(_abgrToArgb(intPixel));
+          final hashlet = _colorToHashlet(_abgrToArgb(abgrPixel));
           hash.add(hashlet);
         }
       }

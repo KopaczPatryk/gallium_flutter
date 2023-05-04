@@ -24,12 +24,15 @@ class _DualComparisonState extends State<DualComparison> {
 
   @override
   void initState() {
-    imagesBytes = [widget.fileA, widget.fileB].map((path) {
-      final fileImage = FileImage(
+    imagesBytes = [
+      widget.fileA,
+      widget.fileB,
+    ].map((String path) {
+      final FileImage fileImage = FileImage(
         File(path),
       );
 
-      final pixels = fileImage.file.readAsBytesSync();
+      final Uint8List pixels = fileImage.file.readAsBytesSync();
       return pixels;
     }).toList();
 

@@ -7,7 +7,9 @@ class SourceImage implements Comparable<Thumbnail> {
 
   String get filename => p.basenameWithoutExtension(file.path);
 
-  const SourceImage(this.file);
+  const SourceImage({
+    required this.file,
+  });
 
   @override
   int compareTo(Thumbnail other) => filename == other.filename ? 0 : -1;

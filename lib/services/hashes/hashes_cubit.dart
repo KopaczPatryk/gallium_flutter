@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
@@ -33,11 +34,17 @@ class HashesCubit extends Cubit<HashesState> {
     const hasher = ImageHasher();
 
     for (var photo in photos) {
-      final image = img.decodeImage(await photo.file.readAsBytes());
-      final hash = await hasher.getImageHash(image!);
+      final Uint8List bytes = await photo.file.readAsBytes();
+      final img.Image? image = img.decodeImage(bytes);
+      final Hash hash = await hasher.getImageHash(image!);
+
       hashes.add(hash);
     }
 
-    emit(FinishedState(hashes: hashes));
+    emit(
+      FinishedState(
+        hashes: hashes,
+      ),
+    );
   }
 }

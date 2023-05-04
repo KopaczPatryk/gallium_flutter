@@ -11,7 +11,9 @@ class GeneratingThumbnailsState extends ThumbnailsState with EquatableMixin {
   final List<Thumbnail> allThumbnails;
 
   @override
-  List<Object> get props => [allThumbnails];
+  List<Object> get props => [
+        allThumbnails,
+      ];
 
   const GeneratingThumbnailsState({
     this.allThumbnails = const [],
@@ -22,12 +24,17 @@ class GeneratedThumbnailState extends GeneratingThumbnailsState {
   final Thumbnail newThumbnail;
 
   @override
-  List<Object> get props => [newThumbnail, allThumbnails];
+  List<Object> get props => [
+        newThumbnail,
+        allThumbnails,
+      ];
 
   const GeneratedThumbnailState({
     required List<Thumbnail> allThumbnails,
     required this.newThumbnail,
-  }) : super(allThumbnails: allThumbnails);
+  }) : super(
+          allThumbnails: allThumbnails,
+        );
 
   @override
   String toString() => 'All count: ${allThumbnails.length}';

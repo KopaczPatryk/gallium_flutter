@@ -7,7 +7,9 @@ import 'package:image_hasher/models/hash.dart';
 class DatabaseProvider {
   final Configuration cfg;
 
-  DatabaseProvider(this.cfg) {
+  DatabaseProvider({
+    required this.cfg,
+  }) {
     if (!Platform.isWindows) {
       throw Exception(
           'App should not be ran on other platforms except windows');

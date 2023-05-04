@@ -1,18 +1,16 @@
-import 'dart:typed_data';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gallium_flutter/models/thumbnail.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_cubit.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_state.dart';
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 
 class ImageThumbnail extends StatelessWidget {
   final VoidCallback? onClick;
-  final Uint8List bytes;
+  final Thumbnail thumbnail;
 
   const ImageThumbnail({
-    required this.bytes,
+    required this.thumbnail,
     this.onClick,
     Key? key,
   }) : super(key: key);
@@ -20,7 +18,12 @@ class ImageThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: onClick,
-        child: Image.memory(bytes),
+        child: Image.memory(
+          thumbnail.imageBytes(),
+          isAntiAlias: true,
+          fit: BoxFit.cover,
+          filterQuality: FilterQuality.medium,
+        ),
       );
 }
 
@@ -44,7 +47,7 @@ class PhotoBrowserPage extends StatelessWidget {
               ),
               itemBuilder: (ctx, index) => ImageThumbnail(
                 onClick: () {},
-                bytes: state.allThumbnails[index].imageBytes,
+                thumbnail: state.allThumbnails[index],
               ),
             );
           } else {
@@ -52,9 +55,7 @@ class PhotoBrowserPage extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: BottomNavBar(
-        router: context.tabsRouter,
-      ),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 
@@ -11,9 +10,7 @@ class PageC extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Tab C'),
       ),
-      bottomNavigationBar: BottomNavBar(
-        router: context.tabsRouter,
-      ),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

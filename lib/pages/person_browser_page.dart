@@ -1,6 +1,4 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-
 import 'package:gallium_flutter/models/person.dart';
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 import 'package:gallium_flutter/widgets/person_view.dart';
@@ -28,9 +26,7 @@ class PersonBrowserPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(
-        router: context.tabsRouter,
-      ),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

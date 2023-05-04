@@ -15,7 +15,9 @@ class FilesProvider {
 
   FutureOr<List<File>> getSourceFiles() async {
     final srcFolder = Directory(configuration.basePath);
-    await srcFolder.create();
+    await srcFolder.create(
+      recursive: true,
+    );
 
     final List<File> files = [];
     await for (final file in srcFolder.list()) {
@@ -45,7 +47,9 @@ class FilesProvider {
     return files;
   }
 
-  Future<Uint8List> readImageBytes(String path) async {
+  Future<Uint8List> readImageBytes({
+    required String path,
+  }) async {
     var file = FileImage(File(path));
     return file.file.readAsBytes();
   }

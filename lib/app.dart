@@ -4,30 +4,54 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
+import 'package:gallium_flutter/repositories/providers/files_provider.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_cubit.dart';
 import 'package:provider/provider.dart';
 
-class App extends StatelessWidget {
-  final Configuration _configuration;
+class App extends StatefulWidget {
+  final Configuration configuration;
   final AppRouter _router;
 
+  App({
+    required this.configuration,
+    Key? key,
+  })  : _router = AppRouter(),
+        super(key: key);
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  late final ThumbnailsRepository thumbnailsRepo;
   late final ThumbnailsCubit _thumbnailsCubit;
 
-  App({
-    required Configuration configuration,
-    required ThumbnailsRepository thumbnailsRepo,
-    required PhotosRepository photosRepo,
-    Key? key,
-  })  : _configuration = configuration,
-        _thumbnailsCubit = ThumbnailsCubit(
-          configuration: configuration,
-          thumbnailsRepository: thumbnailsRepo,
-          photosRepository: photosRepo,
-        ),
-        _router = AppRouter(),
-        super(key: key) {
-    _thumbnailsCubit.init(wipeCache: configuration.forceRegenThumbnails);
+  @override
+  void initState() {
+    thumbnailsRepo = ThumbnailsRepository(
+      configuration: widget.configuration,
+      filesProvider: FilesProvider(
+        configuration: widget.configuration,
+      ),
+    )..wipeThumbnails();
+    final PhotosRepository photosRepo = PhotosRepository(
+      configuration: widget.configuration,
+      filesProvider: FilesProvider(
+        configuration: widget.configuration,
+      ),
+    );
+
+    _thumbnailsCubit = ThumbnailsCubit(
+      configuration: widget.configuration,
+      thumbnailsRepository: thumbnailsRepo,
+      photosRepository: photosRepo,
+    );
+
+    _thumbnailsCubit.init(
+      wipeCache: widget.configuration.forceRegenThumbnails,
+    );
+    super.initState();
   }
 
   @override
@@ -35,16 +59,20 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       scrollBehavior: MyScrollBehavior(),
       title: 'Gallium flutter',
-      routeInformationParser: _router.defaultRouteParser(),
-      routerDelegate: _router.delegate(),
-      theme: ThemeData.light(),
+      routeInformationParser: widget._router.defaultRouteParser(),
+      routerDelegate: widget._router.delegate(),
+      theme: ThemeData.dark(),
       builder: (context, router) => MultiBlocProvider(
         providers: [
-          BlocProvider.value(value: _thumbnailsCubit),
+          BlocProvider.value(
+            value: _thumbnailsCubit,
+          ),
         ],
         child: MultiProvider(
           providers: [
-            Provider.value(value: _configuration),
+            Provider.value(
+              value: widget.configuration,
+            ),
           ],
           child: router,
         ),

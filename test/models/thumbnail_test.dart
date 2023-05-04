@@ -8,6 +8,6 @@ void main() {
     final t0 = Thumbnail(file: File('a'));
     final t1 = Thumbnail(file: File('b'));
 
-    expect(t0, equals(t1));
+    expect(t0, isNot(equals(t1)));
   });
 }

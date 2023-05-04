@@ -29,12 +29,9 @@ void main() {
   test('hashes with different hashlets are not equal', () {
     final a = Hash(hashDepth: 8);
     final b = Hash(hashDepth: 8);
-
     final hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
-    // const hashlet2 = Hashlet(r: 1, g: 2, b: 3, a: 4);
 
     a.add(hashlet);
-    // b.add(hashlet2);
 
     expect(a, isNot(equals(b)));
   });

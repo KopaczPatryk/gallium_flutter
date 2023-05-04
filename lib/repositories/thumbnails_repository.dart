@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/models/thumbnail.dart';
@@ -20,7 +20,9 @@ class ThumbnailsRepository {
   })  : _configuration = configuration,
         _filesProvider = filesProvider;
 
-  FutureOr<img.Image> _generateThumbnail(Uint8List bytes) async {
+  Future<img.Image> _generateThumbnail({
+    required Uint8List bytes,
+  }) async {
     final decodedImage = img.decodeImage(bytes);
     if (decodedImage == null) {
       throw Exception('Unsupported file');
@@ -32,12 +34,17 @@ class ThumbnailsRepository {
     );
   }
 
-  Future<File> _saveThumbnail(String filename, img.Image thumbnail) async {
-    final path = p.joinAll([
-          _configuration.basePath,
-          _configuration.thumbnailsFolder,
-          filename,
-        ]) +
+  Future<File> _saveThumbnail({
+    required String filename,
+    required img.Image thumbnail,
+  }) async {
+    final path = p.joinAll(
+          [
+            _configuration.basePath,
+            _configuration.thumbnailsFolder,
+            filename,
+          ],
+        ) +
         '.png';
 
     final result = File(path);
@@ -46,23 +53,46 @@ class ThumbnailsRepository {
     return result;
   }
 
-  FutureOr<Thumbnail> createThumbnail(SourceImage sourceImage) async {
-    final photoBytes =
-        await _filesProvider.readImageBytes(sourceImage.file.path);
-    final thumbnail = await _generateThumbnail(photoBytes);
-    final thumbnailFile = await _saveThumbnail(sourceImage.filename, thumbnail);
+  FutureOr<Thumbnail> createThumbnail({
+    required SourceImage sourceImage,
+  }) async {
+    final photoBytes = await _filesProvider.readImageBytes(
+      path: sourceImage.file.path,
+    );
+    final thumbnail = await _generateThumbnail(
+      bytes: photoBytes,
+    );
+    final thumbnailFile = await _saveThumbnail(
+      filename: sourceImage.filename,
+      thumbnail: thumbnail,
+    );
 
-    return Thumbnail(file: thumbnailFile);
+    return Thumbnail(
+      file: thumbnailFile,
+    );
   }
 
   Future<List<Thumbnail>> getExistingThumbnails() async {
     final files = await _filesProvider.getThumbnailFiles();
-    return files.map((e) => Thumbnail(file: e)).toList();
+    return files
+        .map(
+          (File file) => Thumbnail(
+            file: file,
+          ),
+        )
+        .toList();
   }
 
-  FutureOr<Thumbnail> _generateThumbnail2(SourceImage image) {
-    final future = Future(() {
-      var file = FileImage(File(image.file.path));
+  // ignore: unused_element
+  Future<Thumbnail> _generateThumbnail2({
+    required SourceImage image,
+  }) {
+    return Future(() {
+      var file = FileImage(
+        File(
+          image.file.path,
+        ),
+      );
       final bytes = file.file.readAsBytesSync();
       final decodedImage = img.decodeImage(bytes);
       if (decodedImage == null) {
@@ -74,31 +104,42 @@ class ThumbnailsRepository {
         interpolation: img.Interpolation.linear,
       );
 
-      final path = p.joinAll([
-            _configuration.basePath,
-            _configuration.thumbnailsFolder,
-            image.filename,
-          ]) +
+      final path = p.joinAll(
+            [
+              _configuration.basePath,
+              _configuration.thumbnailsFolder,
+              image.filename,
+            ],
+          ) +
           '.png';
 
       final result = File(path);
-      result.writeAsBytesSync(img.encodePng(thumbnail));
-      return Thumbnail(file: result, imageBytes: bytes);
-    });
-    return future.then((value) {
+      result.writeAsBytesSync(
+        img.encodePng(thumbnail),
+      );
+      return Thumbnail(
+        file: result,
+        imageBytes: bytes,
+      );
+    }).then((Thumbnail value) {
       return value;
     });
   }
 
-  void wipe() {
+  Future<void> wipeThumbnails() async {
     final thumbnailsPath = p.join(
       _configuration.basePath,
       _configuration.thumbnailsFolder,
     );
+
     try {
-      Directory(thumbnailsPath).deleteSync(recursive: true);
+      await Directory(thumbnailsPath).delete(
+        recursive: true,
+      );
     } catch (e) {
-      print('Nothing to wipe');
+      if (kDebugMode) {
+        print('Nothing to wipe');
+      }
     }
   }
 }
