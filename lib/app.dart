@@ -25,6 +25,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late final ThumbnailsRepository thumbnailsRepo;
+  late final PhotosRepository photosRepo;
   late final ThumbnailsCubit _thumbnailsCubit;
 
   @override
@@ -34,23 +35,23 @@ class _AppState extends State<App> {
       filesProvider: FilesProvider(
         configuration: widget.configuration,
       ),
-    )..wipeThumbnails();
-    final PhotosRepository photosRepo = PhotosRepository(
+    );
+    photosRepo = PhotosRepository(
       configuration: widget.configuration,
       filesProvider: FilesProvider(
         configuration: widget.configuration,
       ),
     );
 
+    if (widget.configuration.forceRegenThumbnails) {
+      thumbnailsRepo.wipeThumbnails();
+    }
+
     _thumbnailsCubit = ThumbnailsCubit(
       configuration: widget.configuration,
       thumbnailsRepository: thumbnailsRepo,
       photosRepository: photosRepo,
-    );
-
-    _thumbnailsCubit.init(
-      wipeCache: widget.configuration.forceRegenThumbnails,
-    );
+    )..init();
     super.initState();
   }
 

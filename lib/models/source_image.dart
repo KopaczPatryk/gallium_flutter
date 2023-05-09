@@ -5,7 +5,7 @@ import 'package:path/path.dart' as p;
 class SourceImage implements Comparable<Thumbnail> {
   final File file;
 
-  String get filename => p.basenameWithoutExtension(file.path);
+  String get filename => p.basename(file.path);
 
   const SourceImage({
     required this.file,

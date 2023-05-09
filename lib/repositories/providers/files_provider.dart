@@ -53,4 +53,10 @@ class FilesProvider {
     var file = FileImage(File(path));
     return file.file.readAsBytes();
   }
+
+  File getFile({
+    required String path,
+  }) {
+    return File(configuration.basePath + '\\' + path);
+  }
 }

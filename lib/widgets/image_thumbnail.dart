@@ -15,7 +15,7 @@ class ImageThumbnail extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         onTap: onClick,
         child: Image.memory(
-          thumbnail.imageBytes,
+          thumbnail.imageBytes(),
           isAntiAlias: true,
           fit: BoxFit.cover,
           filterQuality: FilterQuality.medium,

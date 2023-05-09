@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
+import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/repositories/hashes_repository.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
 import 'package:image/image.dart' as img;
@@ -26,25 +27,28 @@ class HashesCubit extends Cubit<HashesState> {
         super(HashesInitial());
 
   Future<void> init() async {
-    emit(HashesStarting());
+    emit(const HashesGenerating());
 
-    final photos = await _photosRepository.getExistingPhotos();
+    final photos = await _photosRepository.getSourceFiles();
 
-    List<Hash> hashes = [];
-    const hasher = ImageHasher();
+    final List<Hash> hashes = [];
+    const ImageHasher hasher = ImageHasher();
 
-    for (var photo in photos) {
+    for (SourceImage photo in photos) {
       final Uint8List bytes = await photo.file.readAsBytes();
       final img.Image? image = img.decodeImage(bytes);
       final Hash hash = await hasher.getImageHash(image!);
 
       hashes.add(hash);
+      emit(
+        HashGenerated(
+          lastGenerated: hash,
+          allHashes: [
+            ...hashes,
+            hash,
+          ],
+        ),
+      );
     }
-
-    emit(
-      FinishedState(
-        hashes: hashes,
-      ),
-    );
   }
 }

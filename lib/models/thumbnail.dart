@@ -8,17 +8,7 @@ class Thumbnail with EquatableMixin {
   final File file;
   Uint8List? _imageBytes;
 
-  get filename => p.basenameWithoutExtension(file.path);
-
-  Uint8List imageBytes() {
-    final tempFile = FileImage(
-      File(file.path),
-    );
-    final bytes = tempFile.file.readAsBytesSync();
-
-    _imageBytes ??= bytes;
-    return _imageBytes!;
-  }
+  String get filename => p.basename(file.path);
 
   @override
   List<Object?> get props => [
@@ -29,4 +19,14 @@ class Thumbnail with EquatableMixin {
     required this.file,
     Uint8List? imageBytes,
   }) : _imageBytes = imageBytes;
+
+  Uint8List imageBytes() {
+    final tempFile = FileImage(
+      File(file.path),
+    );
+    final bytes = tempFile.file.readAsBytesSync();
+
+    _imageBytes ??= bytes;
+    return _imageBytes!;
+  }
 }

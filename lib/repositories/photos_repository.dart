@@ -12,7 +12,7 @@ class PhotosRepository {
     required FilesProvider filesProvider,
   }) : _filesProvider = filesProvider;
 
-  Future<List<SourceImage>> getExistingPhotos() async {
+  Future<List<SourceImage>> getSourceFiles() async {
     final files = await _filesProvider.getSourceFiles();
     return files
         .map(

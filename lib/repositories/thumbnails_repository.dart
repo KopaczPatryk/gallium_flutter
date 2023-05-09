@@ -53,15 +53,19 @@ class ThumbnailsRepository {
     return result;
   }
 
-  FutureOr<Thumbnail> createThumbnail({
+  FutureOr<Thumbnail> getThumbnail({
     required SourceImage sourceImage,
   }) async {
-    final photoBytes = await _filesProvider.readImageBytes(
-      path: sourceImage.file.path,
+    final File file = _filesProvider.getFile(
+      path: sourceImage.filename,
     );
+
+    final Uint8List photoBytes = await file.readAsBytes();
+
     final thumbnail = await _generateThumbnail(
       bytes: photoBytes,
     );
+
     final thumbnailFile = await _saveThumbnail(
       filename: sourceImage.filename,
       thumbnail: thumbnail,
@@ -72,7 +76,7 @@ class ThumbnailsRepository {
     );
   }
 
-  Future<List<Thumbnail>> getExistingThumbnails() async {
+  Future<List<Thumbnail>> getAllThumbnails() async {
     final files = await _filesProvider.getThumbnailFiles();
     return files
         .map(
@@ -126,14 +130,14 @@ class ThumbnailsRepository {
     });
   }
 
-  Future<void> wipeThumbnails() async {
+  void wipeThumbnails() {
     final thumbnailsPath = p.join(
       _configuration.basePath,
       _configuration.thumbnailsFolder,
     );
 
     try {
-      await Directory(thumbnailsPath).delete(
+      Directory(thumbnailsPath).deleteSync(
         recursive: true,
       );
     } catch (e) {

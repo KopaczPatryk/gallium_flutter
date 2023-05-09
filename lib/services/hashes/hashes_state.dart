@@ -6,12 +6,16 @@ abstract class HashesState {
 
 class HashesInitial extends HashesState {}
 
-class HashesStarting extends HashesState {}
+class HashesGenerating extends HashesState {
+  const HashesGenerating();
+}
 
-class FinishedState extends HashesState {
-  final List<Hash> hashes;
+class HashGenerated extends HashesGenerating {
+  final Hash lastGenerated;
+  final List<Hash> allHashes;
 
-  const FinishedState({
-    required this.hashes,
+  const HashGenerated({
+    required this.lastGenerated,
+    required this.allHashes,
   });
 }

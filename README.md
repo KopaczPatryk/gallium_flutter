@@ -47,7 +47,7 @@ A new Flutter project.
 
 ### When the app starts
 
-* it creates hash for every concrete photo in base directory or reuses the old ones
+* it creates hash for every concrete photo in **base directory** or reuses the old ones
 * compares files by hashes for similarity,
   * ones above 90% are resolved automatically in favor of the [older one],
   * ones with similarity of over 98% are resolved by end user
