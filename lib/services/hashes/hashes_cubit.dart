@@ -35,7 +35,7 @@ class HashesCubit extends Cubit<HashesState> {
     const ImageHasher hasher = ImageHasher();
 
     for (SourceImage photo in photos) {
-      final Uint8List bytes = await photo.file.readAsBytes();
+      final Uint8List bytes = await photo.fileImage.file.readAsBytes();
       final img.Image? image = img.decodeImage(bytes);
       final Hash hash = await hasher.getImageHash(image!);
 

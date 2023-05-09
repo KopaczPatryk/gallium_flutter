@@ -5,20 +5,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/source_image.dart';
-import 'package:gallium_flutter/models/thumbnail.dart';
+import 'package:gallium_flutter/models/thumbnail_image.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
+import 'package:gallium_flutter/utils/bloc/path_provider.dart';
 import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as p;
 
 class ThumbnailsRepository {
   final Configuration _configuration;
   final FilesProvider _filesProvider;
+  final PathProvider _pathProvider;
 
   const ThumbnailsRepository({
     required Configuration configuration,
     required FilesProvider filesProvider,
+    required PathProvider pathProvider,
   })  : _configuration = configuration,
-        _filesProvider = filesProvider;
+        _filesProvider = filesProvider,
+        _pathProvider = pathProvider;
 
   Future<img.Image> _generateThumbnail({
     required Uint8List bytes,
@@ -38,14 +42,9 @@ class ThumbnailsRepository {
     required String filename,
     required img.Image thumbnail,
   }) async {
-    final path = p.joinAll(
-          [
-            _configuration.basePath,
-            _configuration.thumbnailsFolder,
-            filename,
-          ],
-        ) +
-        '.png';
+    final path = _pathProvider.getThumbnailImagePath(
+      filename: filename,
+    );
 
     final result = File(path);
     final bytes = img.encodePng(thumbnail);
@@ -53,7 +52,7 @@ class ThumbnailsRepository {
     return result;
   }
 
-  FutureOr<Thumbnail> getThumbnail({
+  FutureOr<ThumbnailImage> getThumbnail({
     required SourceImage sourceImage,
   }) async {
     final File file = _filesProvider.getFile(
@@ -71,33 +70,28 @@ class ThumbnailsRepository {
       thumbnail: thumbnail,
     );
 
-    return Thumbnail(
-      file: thumbnailFile,
+    return ThumbnailImage(
+      fileImage: FileImage(thumbnailFile),
     );
   }
 
-  Future<List<Thumbnail>> getAllThumbnails() async {
+  Future<List<ThumbnailImage>> getAllThumbnails() async {
     final files = await _filesProvider.getThumbnailFiles();
     return files
         .map(
-          (File file) => Thumbnail(
-            file: file,
+          (File file) => ThumbnailImage.file(
+            file,
           ),
         )
         .toList();
   }
 
   // ignore: unused_element
-  Future<Thumbnail> _generateThumbnail2({
+  Future<ThumbnailImage> _generateThumbnail2({
     required SourceImage image,
   }) {
     return Future(() {
-      var file = FileImage(
-        File(
-          image.file.path,
-        ),
-      );
-      final bytes = file.file.readAsBytesSync();
+      final bytes = image.fileImage.file.readAsBytesSync();
       final decodedImage = img.decodeImage(bytes);
       if (decodedImage == null) {
         throw Exception('Unsupported file');
@@ -121,11 +115,11 @@ class ThumbnailsRepository {
       result.writeAsBytesSync(
         img.encodePng(thumbnail),
       );
-      return Thumbnail(
-        file: result,
-        imageBytes: bytes,
+
+      return ThumbnailImage.file(
+        result,
       );
-    }).then((Thumbnail value) {
+    }).then((ThumbnailImage value) {
       return value;
     });
   }

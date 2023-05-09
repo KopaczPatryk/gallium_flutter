@@ -3,55 +3,93 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
+import 'package:gallium_flutter/repositories/hashes_repository.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
+import 'package:gallium_flutter/repositories/providers/database_provider.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
+import 'package:gallium_flutter/services/hashes/hashes_cubit.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_cubit.dart';
+import 'package:gallium_flutter/utils/bloc/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
   final Configuration configuration;
-  final AppRouter _router;
 
-  App({
+  const App({
     required this.configuration,
     Key? key,
-  })  : _router = AppRouter(),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  late final ThumbnailsRepository thumbnailsRepo;
-  late final PhotosRepository photosRepo;
+  late final AppRouter _router;
+
+  late final DatabaseProvider _databaseProvider;
+
+  late final ThumbnailsRepository _thumbnailsRepo;
+  late final PhotosRepository _photosRepo;
+  late final HashesRepository _hashRepo;
+
+  late final HashesCubit _hashesCubit;
   late final ThumbnailsCubit _thumbnailsCubit;
 
   @override
   void initState() {
-    thumbnailsRepo = ThumbnailsRepository(
-      configuration: widget.configuration,
-      filesProvider: FilesProvider(
-        configuration: widget.configuration,
-      ),
+    _router = AppRouter();
+
+    _databaseProvider = DatabaseProvider(
+      cfg: widget.configuration,
     );
-    photosRepo = PhotosRepository(
+
+    _photosRepo = PhotosRepository(
       configuration: widget.configuration,
       filesProvider: FilesProvider(
         configuration: widget.configuration,
       ),
     );
 
-    if (widget.configuration.forceRegenThumbnails) {
-      thumbnailsRepo.wipeThumbnails();
-    }
+    final PathProvider pathProvider = PathProvider(
+      configuration: widget.configuration,
+    );
+
+    _hashRepo = HashesRepository(
+      databaseRepo: _databaseProvider,
+      filesProvider: FilesProvider(
+        configuration: widget.configuration,
+      ),
+      pathProvider: pathProvider,
+    );
+
+    _thumbnailsRepo = ThumbnailsRepository(
+      configuration: widget.configuration,
+      filesProvider: FilesProvider(
+        configuration: widget.configuration,
+      ),
+      pathProvider: pathProvider,
+    );
+
+    _hashesCubit = HashesCubit(
+      configuration: widget.configuration,
+      photosRepo: _photosRepo,
+      hashRepo: _hashRepo,
+    );
 
     _thumbnailsCubit = ThumbnailsCubit(
       configuration: widget.configuration,
-      thumbnailsRepository: thumbnailsRepo,
-      photosRepository: photosRepo,
-    )..init();
+      thumbnailsRepository: _thumbnailsRepo,
+      photosRepository: _photosRepo,
+    );
+
+    if (widget.configuration.forceRegenThumbnails) {
+      _thumbnailsRepo.wipeThumbnails();
+    }
+
+    _thumbnailsCubit.init();
+
     super.initState();
   }
 
@@ -60,12 +98,12 @@ class _AppState extends State<App> {
     return MaterialApp.router(
       scrollBehavior: MyScrollBehavior(),
       title: 'Gallium flutter',
-      routeInformationParser: widget._router.defaultRouteParser(),
-      routerDelegate: widget._router.delegate(),
+      routeInformationParser: _router.defaultRouteParser(),
+      routerDelegate: _router.delegate(),
       theme: ThemeData.dark(),
       builder: (context, router) => MultiBlocProvider(
         providers: [
-          BlocProvider.value(
+          BlocProvider<ThumbnailsCubit>.value(
             value: _thumbnailsCubit,
           ),
         ],

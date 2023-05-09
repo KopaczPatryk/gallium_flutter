@@ -1,16 +1,15 @@
-import 'dart:io';
-import 'package:gallium_flutter/models/thumbnail.dart';
+import 'package:flutter/material.dart';
+import 'package:gallium_flutter/models/thumbnail_image.dart';
 import 'package:path/path.dart' as p;
 
-class SourceImage implements Comparable<Thumbnail> {
-  final File file;
-
-  String get filename => p.basename(file.path);
+class SourceImage implements Comparable<ThumbnailImage> {
+  final FileImage fileImage;
+  String get filename => p.basename(fileImage.file.path);
 
   const SourceImage({
-    required this.file,
+    required this.fileImage,
   });
 
   @override
-  int compareTo(Thumbnail other) => filename == other.filename ? 0 : -1;
+  int compareTo(ThumbnailImage other) => filename == other.filename ? 0 : -1;
 }

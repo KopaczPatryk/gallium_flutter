@@ -14,7 +14,10 @@ class Hash extends HiveObject with EquatableMixin {
   int get length => _hash.length;
 
   @override
-  List<Object> get props => [hashDepth, _hash];
+  List<Object> get props => [
+        hashDepth,
+        _hash,
+      ];
 
   Hash({
     required this.hashDepth,

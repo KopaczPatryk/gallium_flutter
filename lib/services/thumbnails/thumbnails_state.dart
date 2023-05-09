@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:gallium_flutter/models/thumbnail.dart';
+import 'package:gallium_flutter/models/thumbnail_image.dart';
 
 abstract class ThumbnailsState {
   const ThumbnailsState();
@@ -8,7 +8,7 @@ abstract class ThumbnailsState {
 class InitialState extends ThumbnailsState {}
 
 class GeneratingThumbnailsState extends ThumbnailsState with EquatableMixin {
-  final List<Thumbnail> allThumbnails;
+  final List<ThumbnailImage> allThumbnails;
 
   @override
   List<Object> get props => [
@@ -21,7 +21,7 @@ class GeneratingThumbnailsState extends ThumbnailsState with EquatableMixin {
 }
 
 class GeneratedThumbnailState extends GeneratingThumbnailsState {
-  final Thumbnail newThumbnail;
+  final ThumbnailImage newThumbnail;
 
   @override
   List<Object> get props => [
@@ -30,7 +30,7 @@ class GeneratedThumbnailState extends GeneratingThumbnailsState {
       ];
 
   const GeneratedThumbnailState({
-    required List<Thumbnail> allThumbnails,
+    required List<ThumbnailImage> allThumbnails,
     required this.newThumbnail,
   }) : super(
           allThumbnails: allThumbnails,

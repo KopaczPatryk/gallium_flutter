@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
@@ -17,7 +18,7 @@ class PhotosRepository {
     return files
         .map(
           (File file) => SourceImage(
-            file: file,
+            fileImage: FileImage(file),
           ),
         )
         .toList();

@@ -13,7 +13,7 @@ class FilesProvider {
     required this.configuration,
   });
 
-  FutureOr<List<File>> getSourceFiles() async {
+  Future<List<File>> getSourceFiles() async {
     final srcFolder = Directory(configuration.basePath);
     await srcFolder.create(
       recursive: true,
@@ -30,6 +30,7 @@ class FilesProvider {
   }
 
   FutureOr<List<File>> getThumbnailFiles() async {
+    
     final thumbnailsPath = p.join(
       configuration.basePath,
       configuration.thumbnailsFolder,
@@ -50,6 +51,7 @@ class FilesProvider {
   Future<Uint8List> readImageBytes({
     required String path,
   }) async {
+    
     var file = FileImage(File(path));
     return file.file.readAsBytes();
   }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gallium_flutter/models/thumbnail.dart';
+import 'package:gallium_flutter/models/thumbnail_image.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_cubit.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_state.dart';
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 
 class ImageThumbnail extends StatelessWidget {
   final VoidCallback? onClick;
-  final Thumbnail thumbnail;
+  final ThumbnailImage thumbnail;
 
   const ImageThumbnail({
     required this.thumbnail,
@@ -18,8 +18,8 @@ class ImageThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: onClick,
-        child: Image.memory(
-          thumbnail.imageBytes(),
+        child: Image.file(
+          thumbnail.fileImage.file,
           isAntiAlias: true,
           fit: BoxFit.cover,
           filterQuality: FilterQuality.medium,

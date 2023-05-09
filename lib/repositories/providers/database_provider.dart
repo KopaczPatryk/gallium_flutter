@@ -18,4 +18,8 @@ class DatabaseProvider {
     Hive.init(cfg.dbPath);
     Hive.registerAdapter(HashAdapter());
   }
+
+  Future<Box<Hash>> getHashBox() async {
+    return await Hive.openBox<Hash>('hashes');
+  }
 }

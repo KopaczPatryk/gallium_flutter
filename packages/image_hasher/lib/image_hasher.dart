@@ -30,6 +30,7 @@ class ImageHasher {
   }
 
   FutureOr<Hash> getImageHash(Image src) {
+    // Image.fromBytes(width, height, bytes)
     final future = Future(() {
       final image = copyResize(
         src,
