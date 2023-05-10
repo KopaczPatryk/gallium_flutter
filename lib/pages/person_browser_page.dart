@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/models/person.dart';
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 import 'package:gallium_flutter/widgets/person_view.dart';
 
+@RoutePage()
 class PersonBrowserPage extends StatelessWidget {
   const PersonBrowserPage({Key? key}) : super(key: key);
 

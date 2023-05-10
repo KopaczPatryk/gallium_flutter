@@ -1,32 +1,27 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:gallium_flutter/pages/dashboard_page.dart';
-import 'package:gallium_flutter/pages/photo_browser_page.dart';
-import 'package:gallium_flutter/pages/person_browser_page.dart';
-import 'package:gallium_flutter/pages/page_c.dart';
+import 'package:gallium_flutter/navigation/app_router.gr.dart';
 
-@MaterialAutoRouter(
-  replaceInRouteName: 'Page,Route',
-  routes: <AutoRoute>[
-    AutoRoute(
-      initial: true,
-      path: '/dashboard',
-      page: DashboardPage,
-      children: [
+@AutoRouterConfig(replaceInRouteName: 'Page,Route')
+class AppRouter extends $AppRouter {
+  @override
+  List<AutoRoute> get routes => [
         AutoRoute(
           initial: true,
-          path: 'photo-browser',
-          page: PhotoBrowserPage,
+          path: '/dashboard',
+          page: DashboardRoute.page,
+          children: [
+            AutoRoute(
+              initial: true,
+              path: 'photo-browser',
+              page: PhotoBrowserRoute.page,
+            ),
+            AutoRoute(
+              page: PersonBrowserRoute.page,
+            ),
+            AutoRoute(
+              page: RouteC.page,
+            )
+          ],
         ),
-        AutoRoute(
-          path: 'people-browser',
-          page: PersonBrowserPage,
-        ),
-        AutoRoute(
-          path: 'tab3',
-          page: PageC,
-        )
-      ],
-    ),
-  ],
-)
-class $AppRouter {}
+      ];
+}

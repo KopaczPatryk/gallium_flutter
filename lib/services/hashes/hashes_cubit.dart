@@ -41,7 +41,7 @@ class HashesCubit extends Cubit<HashesState> {
 
       hashes.add(hash);
       emit(
-        HashGenerated(
+        HashesState.generated(
           lastGenerated: hash,
           allHashes: [
             ...hashes,

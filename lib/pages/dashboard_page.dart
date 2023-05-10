@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
 
+@RoutePage()
 class DashboardPage extends StatelessWidget {
   const DashboardPage({
     Key? key,
@@ -15,7 +16,7 @@ class DashboardPage extends StatelessWidget {
         PersonBrowserRoute(),
         RouteC(),
       ],
-      builder: (context, child, animation) => child,
+      builder: (context, child) => child,
     );
   }
 }

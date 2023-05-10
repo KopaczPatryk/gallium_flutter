@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/navigation/app_router.gr.dart';
+import 'package:gallium_flutter/navigation/app_router.dart';
 import 'package:gallium_flutter/repositories/hashes_repository.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
 import 'package:gallium_flutter/repositories/providers/database_provider.dart';

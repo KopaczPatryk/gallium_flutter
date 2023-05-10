@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/models/thumbnail_image.dart';
@@ -27,6 +28,7 @@ class ImageThumbnail extends StatelessWidget {
       );
 }
 
+@RoutePage()
 class PhotoBrowserPage extends StatelessWidget {
   const PhotoBrowserPage({Key? key}) : super(key: key);
 
