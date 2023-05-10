@@ -20,6 +20,7 @@ class DatabaseProvider {
   }
 
   Future<Box<Hash>> getHashBox() async {
-    return await Hive.openBox<Hash>('hashes');
+    final Box<Hash> box = await Hive.openBox<Hash>('hashes');
+    return box;
   }
 }

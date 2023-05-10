@@ -88,7 +88,7 @@ class _AppState extends State<App> {
       _thumbnailsRepo.wipeThumbnails();
     }
 
-    _thumbnailsCubit.init();
+    // _thumbnailsCubit.init();
 
     super.initState();
   }
@@ -103,7 +103,10 @@ class _AppState extends State<App> {
       theme: ThemeData.dark(),
       builder: (context, router) => MultiBlocProvider(
         providers: [
-          BlocProvider<ThumbnailsCubit>.value(
+          BlocProvider.value(
+            value: _hashesCubit,
+          ),
+          BlocProvider.value(
             value: _thumbnailsCubit,
           ),
         ],

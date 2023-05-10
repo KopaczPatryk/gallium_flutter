@@ -17,18 +17,21 @@ class HashAdapter extends TypeAdapter<Hash> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Hash(
-      hashDepth: fields[0] as int,
+      resolution: fields[2] as int,
+      depth: fields[0] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Hash obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.hashDepth)
+      ..write(obj.depth)
       ..writeByte(1)
-      ..write(obj._hash);
+      ..write(obj.hashList)
+      ..writeByte(2)
+      ..write(obj.resolution);
   }
 
   @override

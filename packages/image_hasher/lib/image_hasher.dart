@@ -30,7 +30,6 @@ class ImageHasher {
   }
 
   FutureOr<Hash> getImageHash(Image src) {
-    // Image.fromBytes(width, height, bytes)
     final future = Future(() {
       final image = copyResize(
         src,
@@ -38,15 +37,18 @@ class ImageHasher {
         height: size,
       );
       final hash = Hash(
-        hashDepth: depth,
+        depth: depth,
+        resolution: size,
       );
 
+      int normalizedIndex = 0;
       for (var x = 0; x < image.width; x++) {
         for (var y = 0; y < image.height; y++) {
           final abgrPixel = image.getPixel(x, y);
 
           final hashlet = _colorToHashlet(_abgrToArgb(abgrPixel));
-          hash.add(hashlet);
+          hash[normalizedIndex] = hashlet;
+          normalizedIndex++;
         }
       }
       return hash;

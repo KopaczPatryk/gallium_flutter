@@ -59,6 +59,6 @@ class FilesProvider {
   File getFile({
     required String path,
   }) {
-    return File(configuration.basePath + '\\' + path);
+    return File('${configuration.basePath}\\$path');
   }
 }

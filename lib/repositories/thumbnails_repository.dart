@@ -103,13 +103,12 @@ class ThumbnailsRepository {
       );
 
       final path = p.joinAll(
-            [
-              _configuration.basePath,
-              _configuration.thumbnailsFolder,
-              image.filename,
-            ],
-          ) +
-          '.png';
+        [
+          _configuration.basePath,
+          _configuration.thumbnailsFolder,
+          image.filename,
+        ],
+      );
 
       final result = File(path);
       result.writeAsBytesSync(

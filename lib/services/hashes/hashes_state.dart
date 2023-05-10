@@ -1,21 +1,16 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_hasher/models/hash.dart';
 
-abstract class HashesState {
-  const HashesState();
-}
+part 'hashes_state.freezed.dart';
 
-class HashesInitial extends HashesState {}
-
-class HashesGenerating extends HashesState {
-  const HashesGenerating();
-}
-
-class HashGenerated extends HashesGenerating {
-  final Hash lastGenerated;
-  final List<Hash> allHashes;
-
-  const HashGenerated({
-    required this.lastGenerated,
-    required this.allHashes,
-  });
+@freezed
+class HashesState with _$HashesState {
+  const factory HashesState.initial() = _Initial;
+  const factory HashesState.generating() = _Generating;
+  const factory HashesState.generated({
+    required Hash lastGenerated,
+    required List<Hash> allHashes,
+    required int totalCount,
+  }) = _Generated;
+  const factory HashesState.error() = _Error;
 }

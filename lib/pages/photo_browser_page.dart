@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/models/thumbnail_image.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_cubit.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_state.dart';
+import 'package:gallium_flutter/services/hashes/hashes_cubit.dart';
+import 'package:gallium_flutter/services/hashes/hashes_state.dart';
 import 'package:gallium_flutter/widgets/bottom_nav_bar.dart';
 
 class ImageThumbnail extends StatelessWidget {
@@ -29,8 +29,19 @@ class ImageThumbnail extends StatelessWidget {
 }
 
 @RoutePage()
-class PhotoBrowserPage extends StatelessWidget {
+class PhotoBrowserPage extends StatefulWidget {
   const PhotoBrowserPage({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _PhotoBrowserPageState();
+}
+
+class _PhotoBrowserPageState extends State<PhotoBrowserPage> {
+  @override
+  void didChangeDependencies() {
+    BlocProvider.of<HashesCubit>(context).init();
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,24 +49,19 @@ class PhotoBrowserPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Photo browser'),
       ),
-      body: BlocBuilder<ThumbnailsCubit, ThumbnailsState>(
-        builder: (context, state) {
-          if (state is GeneratingThumbnailsState) {
-            return GridView.builder(
-              controller: ScrollController(),
-              itemCount: state.allThumbnails.length,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
+      body: Center(
+        child: BlocBuilder<HashesCubit, HashesState>(
+          builder: (context, state) {
+            return state.when(
+              initial: () => const Text('Idle'),
+              generating: () => const Text('Generating hashes'),
+              generated: (lastGenerated, allHashes, totalCount) => Text(
+                'Generated ${allHashes.length} of $totalCount hashes',
               ),
-              itemBuilder: (ctx, index) => ImageThumbnail(
-                onClick: () {},
-                thumbnail: state.allThumbnails[index],
-              ),
+              error: () => const Text('Error'),
             );
-          } else {
-            return const Text('No images to show lol');
-          }
-        },
+          },
+        ),
       ),
       bottomNavigationBar: const BottomNavBar(),
     );
