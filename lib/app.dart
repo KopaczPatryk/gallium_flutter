@@ -1,16 +1,13 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.dart';
-import 'package:gallium_flutter/repositories/hashes_repository.dart';
-import 'package:gallium_flutter/repositories/photos_repository.dart';
-import 'package:gallium_flutter/repositories/providers/database_provider.dart';
-import 'package:gallium_flutter/repositories/providers/files_provider.dart';
-import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
-import 'package:gallium_flutter/services/hashes/hashes_cubit.dart';
-import 'package:gallium_flutter/services/thumbnails/thumbnails_cubit.dart';
-import 'package:gallium_flutter/utils/bloc/path_provider.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/repositories/session_repository.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
@@ -28,67 +25,27 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   late final AppRouter _router;
 
-  late final DatabaseProvider _databaseProvider;
+  late final SessionRepository _sessionRepository;
+  late final PreferenceManager _preferencesManager;
 
-  late final ThumbnailsRepository _thumbnailsRepo;
-  late final PhotosRepository _photosRepo;
-  late final HashesRepository _hashRepo;
-
-  late final HashesCubit _hashesCubit;
-  late final ThumbnailsCubit _thumbnailsCubit;
+  late final SessionCubit _sessionCubit;
 
   @override
   void initState() {
-    _router = AppRouter();
-
-    _databaseProvider = DatabaseProvider(
-      cfg: widget.configuration,
+    _preferencesManager = PreferenceManager(
+      prefix: widget.configuration.preferencesPrefix,
     );
-
-    _photosRepo = PhotosRepository(
-      configuration: widget.configuration,
-      filesProvider: FilesProvider(
-        configuration: widget.configuration,
-      ),
+    _sessionRepository = SessionRepository(
+      preferencesRepository: _preferencesManager,
     );
-
-    final PathProvider pathProvider = PathProvider(
+    _sessionCubit = SessionCubit(
+      sessionRepository: _sessionRepository,
       configuration: widget.configuration,
     );
 
-    _hashRepo = HashesRepository(
-      databaseRepo: _databaseProvider,
-      filesProvider: FilesProvider(
-        configuration: widget.configuration,
-      ),
-      pathProvider: pathProvider,
+    _router = AppRouter(
+      preferencesRepository: _preferencesManager,
     );
-
-    _thumbnailsRepo = ThumbnailsRepository(
-      configuration: widget.configuration,
-      filesProvider: FilesProvider(
-        configuration: widget.configuration,
-      ),
-      pathProvider: pathProvider,
-    );
-
-    _hashesCubit = HashesCubit(
-      configuration: widget.configuration,
-      photosRepo: _photosRepo,
-      hashRepo: _hashRepo,
-    );
-
-    _thumbnailsCubit = ThumbnailsCubit(
-      configuration: widget.configuration,
-      thumbnailsRepository: _thumbnailsRepo,
-      photosRepository: _photosRepo,
-    );
-
-    if (widget.configuration.forceRegenThumbnails) {
-      _thumbnailsRepo.wipeThumbnails();
-    }
-
-    // _thumbnailsCubit.init();
 
     super.initState();
   }
@@ -104,16 +61,19 @@ class _AppState extends State<App> {
       builder: (context, router) => MultiBlocProvider(
         providers: [
           BlocProvider.value(
-            value: _hashesCubit,
-          ),
-          BlocProvider.value(
-            value: _thumbnailsCubit,
+            value: _sessionCubit,
           ),
         ],
         child: MultiProvider(
           providers: [
             Provider.value(
               value: widget.configuration,
+            ),
+            RepositoryProvider.value(
+              value: _sessionRepository,
+            ),
+            RepositoryProvider.value(
+              value: _preferencesManager,
             ),
           ],
           child: router,
@@ -130,3 +90,85 @@ class MyScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.mouse,
       };
 }
+
+class SessionCubit extends Cubit<SessionState> {
+  final Configuration _configuration;
+  final SessionRepository _sessionRepository;
+  late final StreamSubscription? _sessionSubscription;
+
+  SessionCubit({
+    required SessionRepository sessionRepository,
+    required Configuration configuration,
+  })  : _sessionRepository = sessionRepository,
+        _configuration = configuration,
+        super(
+          Initial(),
+        ) {
+    _sessionSubscription = _sessionRepository.workspacePathStream.listen(
+      (event) {
+        if (event != null && state is Initialized) {
+          emit(WorkspaceInitial());
+        }
+      },
+    );
+  }
+
+  Future<void> init(AsyncCallback asyncCallback) async {
+    if (state is! Initial) return;
+
+    emit(
+      Initializing(),
+    );
+    await Future.wait(
+      [
+        asyncCallback(),
+        Future.delayed(
+          _configuration.splashScreenDuration,
+        ),
+      ],
+    );
+
+    final workspacePath = await _sessionRepository.workspacePathStream.first;
+
+    if (workspacePath != null) {
+      emit(
+        WorkspaceInitial(),
+      );
+    } else {
+      emit(
+        Initialized(),
+      );
+    }
+  }
+
+  Future<void> initWorkspace(AsyncCallback asyncCallback) async {
+    if (state is WorkspaceInitialized) return;
+    if (state is! WorkspaceInitial) {
+      throw StateError('Not correctly initialized');
+    }
+
+    emit(WorkspaceInitializing());
+    await asyncCallback();
+    emit(WorkspaceInitialized());
+  }
+
+  @override
+  Future<void> close() {
+    _sessionSubscription?.cancel();
+    return super.close();
+  }
+}
+
+abstract class SessionState {}
+
+class Initial extends SessionState {}
+
+class Initializing extends SessionState {}
+
+class Initialized extends SessionState {}
+
+class WorkspaceInitial extends SessionState {}
+
+class WorkspaceInitializing extends SessionState {}
+
+class WorkspaceInitialized extends SessionState {}

@@ -6,20 +6,26 @@ import 'package:flutter/foundation.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/models/thumbnail_image.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
 import 'package:gallium_flutter/utils/bloc/path_provider.dart';
+import 'package:gallium_flutter/utils/mixins/preferences_mixin.dart';
 import 'package:image/image.dart' as img;
-import 'package:path/path.dart' as p;
+// import 'package:path/path.dart' as p;
 
-class ThumbnailsRepository {
+class ThumbnailsRepository with PreferencesMixin {
   final Configuration _configuration;
   final FilesProvider _filesProvider;
   final PathProvider _pathProvider;
 
-  const ThumbnailsRepository({
+  @override
+  PreferenceManager preferencesRepository;
+
+  ThumbnailsRepository({
     required Configuration configuration,
     required FilesProvider filesProvider,
     required PathProvider pathProvider,
+    required this.preferencesRepository,
   })  : _configuration = configuration,
         _filesProvider = filesProvider,
         _pathProvider = pathProvider;
@@ -102,12 +108,8 @@ class ThumbnailsRepository {
         interpolation: img.Interpolation.linear,
       );
 
-      final path = p.joinAll(
-        [
-          _configuration.basePath,
-          _configuration.thumbnailsFolder,
-          image.filename,
-        ],
+      final path = _pathProvider.getThumbnailImagePath(
+        filename: image.filename,
       );
 
       final result = File(path);
@@ -123,16 +125,21 @@ class ThumbnailsRepository {
     });
   }
 
-  void wipeThumbnails() {
-    final thumbnailsPath = p.join(
-      _configuration.basePath,
-      _configuration.thumbnailsFolder,
-    );
+  Future<void> wipeThumbnails() async {
+    final workspace = workspacePath;
+    if (workspace == null) {
+      return;
+    }
+
+    final thumbnailsPath = _pathProvider.getThumbnailFolderPath();
 
     try {
-      Directory(thumbnailsPath).deleteSync(
-        recursive: true,
-      );
+      final directory = Directory(thumbnailsPath);
+      if (await directory.exists()) {
+        Directory(thumbnailsPath).delete(
+          recursive: true,
+        );
+      }
     } catch (e) {
       if (kDebugMode) {
         print('Nothing to wipe');

@@ -32,13 +32,14 @@ class HashesCubit extends Cubit<HashesState> {
       final Hash hash = await _hashRepo.getHash(sourceImage);
 
       hashes.add(hash);
-      emit(
-        HashesState.generated(
-          lastGenerated: hash,
-          allHashes: hashes,
-          totalCount: photos.length,
-        ),
+
+      final newState = HashesState.generated(
+        lastGenerated: hash,
+        allHashes: hashes,
+        totalCount: photos.length,
       );
+      
+      emit(newState);
     }
   }
 }

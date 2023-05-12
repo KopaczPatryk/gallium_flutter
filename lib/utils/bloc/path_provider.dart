@@ -1,19 +1,37 @@
 import 'package:gallium_flutter/cfg/configuration.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/utils/mixins/preferences_mixin.dart';
 import 'package:path/path.dart' as p;
 
-class PathProvider {
+class PathProvider with PreferencesMixin {
   final Configuration _configuration;
 
-  const PathProvider({
+  @override
+  PreferenceManager preferencesRepository;
+
+  PathProvider({
+    required this.preferencesRepository,
     required Configuration configuration,
   }) : _configuration = configuration;
+
+  String getSourceFolderPath() {
+    return workspacePath!;
+  }
 
   String getSourceImagePath({
     required String filename,
   }) {
     final path = p.joinAll([
-      _configuration.basePath,
+      workspacePath!,
       filename,
+    ]);
+    return path;
+  }
+
+  String getThumbnailFolderPath() {
+    final path = p.joinAll([
+      workspacePath!,
+      _configuration.thumbnailsFolder,
     ]);
     return path;
   }
@@ -22,9 +40,17 @@ class PathProvider {
     required String filename,
   }) {
     final path = p.joinAll([
-      _configuration.basePath,
+      workspacePath!,
       _configuration.thumbnailsFolder,
       filename,
+    ]);
+    return path;
+  }
+
+  String getDatabasePath() {
+    final path = p.joinAll([
+      workspacePath!,
+      _configuration.databaseFolder,
     ]);
     return path;
   }

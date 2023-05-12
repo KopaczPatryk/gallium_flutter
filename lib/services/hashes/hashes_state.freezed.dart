@@ -116,15 +116,6 @@ class _$_Initial implements _Initial {
   }
 
   @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Initial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -232,15 +223,6 @@ class _$_Generating implements _Generating {
   String toString() {
     return 'HashesState.generating()';
   }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Generating);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
@@ -393,23 +375,6 @@ class _$_Generated implements _Generated {
     return 'HashesState.generated(lastGenerated: $lastGenerated, allHashes: $allHashes, totalCount: $totalCount)';
   }
 
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Generated &&
-            (identical(other.lastGenerated, lastGenerated) ||
-                other.lastGenerated == lastGenerated) &&
-            const DeepCollectionEquality()
-                .equals(other._allHashes, _allHashes) &&
-            (identical(other.totalCount, totalCount) ||
-                other.totalCount == totalCount));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, lastGenerated,
-      const DeepCollectionEquality().hash(_allHashes), totalCount);
-
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
@@ -532,15 +497,6 @@ class _$_Error implements _Error {
   String toString() {
     return 'HashesState.error()';
   }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Error);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs

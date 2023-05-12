@@ -40,6 +40,7 @@ class _PhotoBrowserPageState extends State<PhotoBrowserPage> {
   @override
   void didChangeDependencies() {
     BlocProvider.of<HashesCubit>(context).init();
+
     super.didChangeDependencies();
   }
 
@@ -55,9 +56,11 @@ class _PhotoBrowserPageState extends State<PhotoBrowserPage> {
             return state.when(
               initial: () => const Text('Idle'),
               generating: () => const Text('Generating hashes'),
-              generated: (lastGenerated, allHashes, totalCount) => Text(
-                'Generated ${allHashes.length} of $totalCount hashes',
-              ),
+              generated: (lastGenerated, allHashes, totalCount) {
+                return Text(
+                  'Generated ${allHashes.length} of $totalCount hashes',
+                );
+              },
               error: () => const Text('Error'),
             );
           },
