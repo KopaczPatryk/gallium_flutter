@@ -24,11 +24,11 @@ class HashesCubit extends Cubit<HashesState> {
   Future<void> init() async {
     emit(const HashesState.generating());
 
-    final photos = await _photosRepository.getSourceFiles();
+    final sourceImages = await _photosRepository.getSourceFiles();
 
     final List<HashModel> hashes = [];
 
-    for (SourceImage sourceImage in photos) {
+    for (SourceImage sourceImage in sourceImages) {
       final HashModel hash = await _hashRepo.getHash(sourceImage);
 
       hashes.add(hash);
@@ -36,7 +36,7 @@ class HashesCubit extends Cubit<HashesState> {
       final newState = HashesState.generated(
         lastGenerated: hash,
         allHashes: hashes,
-        totalCount: photos.length,
+        totalCount: sourceImages.length,
       );
 
       emit(newState);
