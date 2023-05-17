@@ -2,7 +2,7 @@ import 'package:image_hasher/exceptions/hash_incompatibility_exception.dart';
 import 'package:image_hasher/models/hash.dart';
 
 abstract class HashComparisonUtils {
-  static double compareHashes(final Hash a, final Hash b) {
+  static double compareHashes(final HashModel a, final HashModel b) {
     if (a.length != b.length) {
       throw const HashIncompatibilityException(
         message: 'Hash length mismatch',
@@ -20,7 +20,11 @@ abstract class HashComparisonUtils {
     return equalPercent / length;
   }
 
-  static double compareHashesFast(final Hash a, Hash b, double threshold) {
+  static double compareHashesFast(
+    final HashModel a,
+    HashModel b,
+    double threshold,
+  ) {
     if (a.length != b.length) {
       throw const HashIncompatibilityException(
         message: 'Hash length mismatch',

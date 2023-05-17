@@ -8,8 +8,8 @@ class HashesState with _$HashesState {
   const factory HashesState.initial() = _Initial;
   const factory HashesState.generating() = _Generating;
   const factory HashesState.generated({
-    required Hash lastGenerated,
-    required List<Hash> allHashes,
+    required HashModel lastGenerated,
+    required List<HashModel> allHashes,
     required int totalCount,
   }) = _Generated;
   const factory HashesState.error() = _Error;

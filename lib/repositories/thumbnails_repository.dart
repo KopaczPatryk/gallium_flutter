@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/models/thumbnail_image.dart';
-import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preference_manager.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
 import 'package:gallium_flutter/utils/bloc/path_provider.dart';
 import 'package:gallium_flutter/utils/mixins/preferences_mixin.dart';

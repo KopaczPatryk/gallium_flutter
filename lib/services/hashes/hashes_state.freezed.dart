@@ -21,7 +21,7 @@ mixin _$HashesState {
     required TResult Function() initial,
     required TResult Function() generating,
     required TResult Function(
-            Hash lastGenerated, List<Hash> allHashes, int totalCount)
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)
         generated,
     required TResult Function() error,
   }) =>
@@ -30,7 +30,8 @@ mixin _$HashesState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? generating,
-    TResult? Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult? Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult? Function()? error,
   }) =>
@@ -39,7 +40,8 @@ mixin _$HashesState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? generating,
-    TResult Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult Function()? error,
     required TResult orElse(),
@@ -121,7 +123,7 @@ class _$_Initial implements _Initial {
     required TResult Function() initial,
     required TResult Function() generating,
     required TResult Function(
-            Hash lastGenerated, List<Hash> allHashes, int totalCount)
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)
         generated,
     required TResult Function() error,
   }) {
@@ -133,7 +135,8 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? generating,
-    TResult? Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult? Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult? Function()? error,
   }) {
@@ -145,7 +148,8 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? generating,
-    TResult Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult Function()? error,
     required TResult orElse(),
@@ -230,7 +234,7 @@ class _$_Generating implements _Generating {
     required TResult Function() initial,
     required TResult Function() generating,
     required TResult Function(
-            Hash lastGenerated, List<Hash> allHashes, int totalCount)
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)
         generated,
     required TResult Function() error,
   }) {
@@ -242,7 +246,8 @@ class _$_Generating implements _Generating {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? generating,
-    TResult? Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult? Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult? Function()? error,
   }) {
@@ -254,7 +259,8 @@ class _$_Generating implements _Generating {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? generating,
-    TResult Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult Function()? error,
     required TResult orElse(),
@@ -313,7 +319,8 @@ abstract class _$$_GeneratedCopyWith<$Res> {
           _$_Generated value, $Res Function(_$_Generated) then) =
       __$$_GeneratedCopyWithImpl<$Res>;
   @useResult
-  $Res call({Hash lastGenerated, List<Hash> allHashes, int totalCount});
+  $Res call(
+      {HashModel lastGenerated, List<HashModel> allHashes, int totalCount});
 }
 
 /// @nodoc
@@ -335,11 +342,11 @@ class __$$_GeneratedCopyWithImpl<$Res>
       lastGenerated: null == lastGenerated
           ? _value.lastGenerated
           : lastGenerated // ignore: cast_nullable_to_non_nullable
-              as Hash,
+              as HashModel,
       allHashes: null == allHashes
           ? _value._allHashes
           : allHashes // ignore: cast_nullable_to_non_nullable
-              as List<Hash>,
+              as List<HashModel>,
       totalCount: null == totalCount
           ? _value.totalCount
           : totalCount // ignore: cast_nullable_to_non_nullable
@@ -353,15 +360,15 @@ class __$$_GeneratedCopyWithImpl<$Res>
 class _$_Generated implements _Generated {
   const _$_Generated(
       {required this.lastGenerated,
-      required final List<Hash> allHashes,
+      required final List<HashModel> allHashes,
       required this.totalCount})
       : _allHashes = allHashes;
 
   @override
-  final Hash lastGenerated;
-  final List<Hash> _allHashes;
+  final HashModel lastGenerated;
+  final List<HashModel> _allHashes;
   @override
-  List<Hash> get allHashes {
+  List<HashModel> get allHashes {
     if (_allHashes is EqualUnmodifiableListView) return _allHashes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_allHashes);
@@ -387,7 +394,7 @@ class _$_Generated implements _Generated {
     required TResult Function() initial,
     required TResult Function() generating,
     required TResult Function(
-            Hash lastGenerated, List<Hash> allHashes, int totalCount)
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)
         generated,
     required TResult Function() error,
   }) {
@@ -399,7 +406,8 @@ class _$_Generated implements _Generated {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? generating,
-    TResult? Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult? Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult? Function()? error,
   }) {
@@ -411,7 +419,8 @@ class _$_Generated implements _Generated {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? generating,
-    TResult Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult Function()? error,
     required TResult orElse(),
@@ -462,12 +471,12 @@ class _$_Generated implements _Generated {
 
 abstract class _Generated implements HashesState {
   const factory _Generated(
-      {required final Hash lastGenerated,
-      required final List<Hash> allHashes,
+      {required final HashModel lastGenerated,
+      required final List<HashModel> allHashes,
       required final int totalCount}) = _$_Generated;
 
-  Hash get lastGenerated;
-  List<Hash> get allHashes;
+  HashModel get lastGenerated;
+  List<HashModel> get allHashes;
   int get totalCount;
   @JsonKey(ignore: true)
   _$$_GeneratedCopyWith<_$_Generated> get copyWith =>
@@ -504,7 +513,7 @@ class _$_Error implements _Error {
     required TResult Function() initial,
     required TResult Function() generating,
     required TResult Function(
-            Hash lastGenerated, List<Hash> allHashes, int totalCount)
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)
         generated,
     required TResult Function() error,
   }) {
@@ -516,7 +525,8 @@ class _$_Error implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? generating,
-    TResult? Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult? Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult? Function()? error,
   }) {
@@ -528,7 +538,8 @@ class _$_Error implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? generating,
-    TResult Function(Hash lastGenerated, List<Hash> allHashes, int totalCount)?
+    TResult Function(
+            HashModel lastGenerated, List<HashModel> allHashes, int totalCount)?
         generated,
     TResult Function()? error,
     required TResult orElse(),

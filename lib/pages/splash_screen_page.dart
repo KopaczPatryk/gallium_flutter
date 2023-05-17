@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/app.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
-import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preference_manager.dart';
 import 'package:gallium_flutter/repositories/session_repository.dart';
 
 @RoutePage()
@@ -19,13 +19,12 @@ class SplashScreenPage extends StatefulWidget {
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
-  void didChangeDependencies() {
+  void initState() {
     final sessionCubit = BlocProvider.of<SessionCubit>(
       context,
     );
     sessionCubit.init(_init);
-
-    super.didChangeDependencies();
+    super.initState();
   }
 
   Future<void> _init() async {

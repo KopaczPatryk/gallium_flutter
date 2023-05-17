@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
 import 'package:gallium_flutter/navigation/guards/workspace_guard.dart';
-import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preference_manager.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
 class AppRouter extends $AppRouter {

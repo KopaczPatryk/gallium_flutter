@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/models/entities/hash_entity.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preference_manager.dart';
 import 'package:gallium_flutter/utils/bloc/path_provider.dart';
 import 'package:gallium_flutter/utils/mixins/preferences_mixin.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:image_hasher/models/hash.dart';
 
 class DatabaseProvider with PreferencesMixin {
   final PathProvider _pathProvider;
@@ -23,11 +23,11 @@ class DatabaseProvider with PreferencesMixin {
 
   void init() {
     Hive.init(_pathProvider.getDatabasePath());
-    Hive.registerAdapter(HashAdapter());
+    Hive.registerAdapter(HashEntityAdapter());
   }
 
-  Future<Box<Hash>> getHashBox() async {
-    final Box<Hash> box = await Hive.openBox<Hash>('hashes');
+  Future<Box<HashEntity>> getHashBox() async {
+    final Box<HashEntity> box = await Hive.openBox<HashEntity>('hashes');
     return box;
   }
 }

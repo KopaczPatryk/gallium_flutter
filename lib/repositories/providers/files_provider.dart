@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preference_manager.dart';
 import 'package:gallium_flutter/utils/bloc/path_provider.dart';
 import 'package:gallium_flutter/utils/mixins/preferences_mixin.dart';
 

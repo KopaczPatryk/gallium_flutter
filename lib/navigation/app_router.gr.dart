@@ -14,7 +14,8 @@ import 'package:gallium_flutter/pages/page_c.dart' as _i2;
 import 'package:gallium_flutter/pages/person_browser_page.dart' as _i3;
 import 'package:gallium_flutter/pages/photo_browser_page.dart' as _i4;
 import 'package:gallium_flutter/pages/splash_screen_page.dart' as _i5;
-import 'package:gallium_flutter/pages/workspace_setup_page.dart' as _i6;
+import 'package:gallium_flutter/pages/workspace_setup_page/workspace_setup_page.dart'
+    as _i6;
 
 abstract class $AppRouter extends _i7.RootStackRouter {
   $AppRouter({super.navigatorKey});

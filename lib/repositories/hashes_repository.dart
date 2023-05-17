@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:gallium_flutter/models/entities/hash_entity.dart';
 import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/repositories/providers/database_provider.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
@@ -19,24 +20,30 @@ class HashesRepository {
   })  : _databaseRepo = databaseRepo,
         _imageHasher = const ImageHasher();
 
-  Future<List<Hash>> getAllHashes() async {
-    final Box<Hash> hashBox = await _databaseRepo.getHashBox();
-    final List<Hash> allHashes = hashBox.values.toList();
+  Future<List<HashModel>> getAllHashes() async {
+    final Box<HashEntity> hashBox = await _databaseRepo.getHashBox();
+    final List<HashModel> allHashes = hashBox.values
+        .map(
+          (e) => e.asModel(),
+        )
+        .toList();
 
     return allHashes;
   }
 
-  Future<Hash> getHash(SourceImage sourceImage) async {
-    final Box<Hash> box = await _databaseRepo.getHashBox();
-    final Hash? hash = box.get(sourceImage.filename);
+  Future<HashModel> getHash(SourceImage sourceImage) async {
+    final Box<HashEntity> box = await _databaseRepo.getHashBox();
+
+    final HashEntity? hash = box.get(sourceImage.filename);
+
     if (hash != null) {
-      return hash;
+      return hash.asModel();
     }
 
     final img.Image image = await _openFileAsImage(sourceImage: sourceImage);
-    final Hash generatedHash = await _imageHasher.getImageHash(image);
+    final HashModel generatedHash = await _imageHasher.getImageHash(image);
 
-    box.put(sourceImage.filename, generatedHash);
+    box.put(sourceImage.filename, generatedHash.asEntity());
 
     return generatedHash;
   }

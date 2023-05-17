@@ -26,10 +26,10 @@ class HashesCubit extends Cubit<HashesState> {
 
     final photos = await _photosRepository.getSourceFiles();
 
-    final List<Hash> hashes = [];
+    final List<HashModel> hashes = [];
 
     for (SourceImage sourceImage in photos) {
-      final Hash hash = await _hashRepo.getHash(sourceImage);
+      final HashModel hash = await _hashRepo.getHash(sourceImage);
 
       hashes.add(hash);
 
@@ -38,7 +38,7 @@ class HashesCubit extends Cubit<HashesState> {
         allHashes: hashes,
         totalCount: photos.length,
       );
-      
+
       emit(newState);
     }
   }

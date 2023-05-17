@@ -1,15 +1,20 @@
 import 'package:equatable/equatable.dart';
 
-class Hashlet with EquatableMixin {
+class HashCell with EquatableMixin {
   final int r;
   final int g;
   final int b;
   final int a;
 
   @override
-  List<int> get props => [r, g, b, a];
+  List<int> get props => [
+        r,
+        g,
+        b,
+        a,
+      ];
 
-  const Hashlet({
+  const HashCell({
     required this.r,
     required this.g,
     required this.b,

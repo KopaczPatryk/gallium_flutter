@@ -12,11 +12,11 @@ void main() {
         File('a'),
       ),
     );
-    final a = GeneratedThumbnailState(
+    final a = ThumbnailsState.generated(
       allThumbnails: [t],
       newThumbnail: t,
     );
-    final b = GeneratedThumbnailState(
+    final b = ThumbnailsState.generated(
       allThumbnails: [t],
       newThumbnail: t,
     );
@@ -34,11 +34,11 @@ void main() {
         File('b'),
       ),
     );
-    final a = GeneratedThumbnailState(
+    final a = ThumbnailsState.generated(
       allThumbnails: [t0],
       newThumbnail: t0,
     );
-    final b = GeneratedThumbnailState(
+    final b = ThumbnailsState.generated(
       allThumbnails: [t0, t1],
       newThumbnail: t1,
     );
@@ -57,11 +57,11 @@ void main() {
         File('a'),
       ),
     );
-    final a = GeneratedThumbnailState(
+    final a = ThumbnailsState.generated(
       allThumbnails: [t0],
       newThumbnail: t0,
     );
-    final b = GeneratedThumbnailState(
+    final b = ThumbnailsState.generated(
       allThumbnails: [t1],
       newThumbnail: t1,
     );
@@ -79,11 +79,11 @@ void main() {
         File('b'),
       ),
     );
-    final a = GeneratedThumbnailState(
+    final a = ThumbnailsState.generated(
       allThumbnails: [t0],
       newThumbnail: t0,
     );
-    final b = GeneratedThumbnailState(
+    final b = ThumbnailsState.generated(
       allThumbnails: [t1],
       newThumbnail: t1,
     );

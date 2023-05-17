@@ -1,41 +1,17 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gallium_flutter/models/thumbnail_image.dart';
 
-abstract class ThumbnailsState {
-  const ThumbnailsState();
-}
+part 'thumbnails_state.freezed.dart';
 
-class InitialState extends ThumbnailsState {}
-
-class GeneratingThumbnailsState extends ThumbnailsState with EquatableMixin {
-  final List<ThumbnailImage> allThumbnails;
-
-  @override
-  List<Object> get props => [
-        allThumbnails,
-      ];
-
-  const GeneratingThumbnailsState({
-    this.allThumbnails = const [],
-  });
-}
-
-class GeneratedThumbnailState extends GeneratingThumbnailsState {
-  final ThumbnailImage newThumbnail;
-
-  @override
-  List<Object> get props => [
-        newThumbnail,
-        allThumbnails,
-      ];
-
-  const GeneratedThumbnailState({
+@Freezed(equal: true)
+class ThumbnailsState with _$ThumbnailsState {
+  const factory ThumbnailsState.initial() = _$Initial;
+  const factory ThumbnailsState.generating({
+    @Default([]) List<ThumbnailImage> allThumbnails,
+  }) = _$Generating;
+  const factory ThumbnailsState.generated({
+    required ThumbnailImage newThumbnail,
     required List<ThumbnailImage> allThumbnails,
-    required this.newThumbnail,
-  }) : super(
-          allThumbnails: allThumbnails,
-        );
-
-  @override
-  String toString() => 'All count: ${allThumbnails.length}';
+  }) = _$Generated;
 }

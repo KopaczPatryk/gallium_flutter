@@ -1,29 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hash.dart';
+part of 'hash_entity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class HashAdapter extends TypeAdapter<Hash> {
+class HashEntityAdapter extends TypeAdapter<HashEntity> {
   @override
   final int typeId = 0;
 
   @override
-  Hash read(BinaryReader reader) {
+  HashEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Hash(
+    return HashEntity(
       resolution: fields[2] as int,
       depth: fields[0] as int,
+      hashList: fields[1] as Uint8List,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Hash obj) {
+  void write(BinaryWriter writer, HashEntity obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -40,7 +41,7 @@ class HashAdapter extends TypeAdapter<Hash> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HashAdapter &&
+      other is HashEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

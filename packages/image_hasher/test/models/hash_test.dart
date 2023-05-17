@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_hasher/models/hash.dart';
-import 'package:image_hasher/models/hashlet.dart';
+import 'package:image_hasher/models/hash_cell.dart';
 
 void main() {
   test('hashes with same const hashlets are equal', () {
-    final a = Hash(resolution: 1, depth: 8);
-    final b = Hash(resolution: 1, depth: 8);
-    const hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final a = HashModel(resolution: 1, depth: 8);
+    final b = HashModel(resolution: 1, depth: 8);
+    const hashlet = HashCell(r: 1, g: 2, b: 3, a: 4);
 
     a[0] = hashlet;
     b[0] = hashlet;
@@ -15,10 +15,10 @@ void main() {
   });
 
   test('hashes with same hashlets are equal', () {
-    final a = Hash(resolution: 1, depth: 8);
-    final b = Hash(resolution: 1, depth: 8);
-    const hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
-    const hashlet2 = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final a = HashModel(resolution: 1, depth: 8);
+    final b = HashModel(resolution: 1, depth: 8);
+    const hashlet = HashCell(r: 1, g: 2, b: 3, a: 4);
+    const hashlet2 = HashCell(r: 1, g: 2, b: 3, a: 4);
 
     a[0] = hashlet;
     b[0] = hashlet2;
@@ -27,9 +27,9 @@ void main() {
   });
 
   test('hashes with different hash arrays are not equal', () {
-    final a = Hash(resolution: 1, depth: 8);
-    final b = Hash(resolution: 1, depth: 8);
-    const hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    final a = HashModel(resolution: 1, depth: 8);
+    final b = HashModel(resolution: 1, depth: 8);
+    const hashlet = HashCell(r: 1, g: 2, b: 3, a: 4);
 
     a[0] = hashlet;
 
@@ -37,11 +37,11 @@ void main() {
   });
 
   test('hashes with different depths are not equal', () {
-    final a = Hash(resolution: 1, depth: 8);
-    final b = Hash(resolution: 1, depth: 4);
+    final a = HashModel(resolution: 1, depth: 8);
+    final b = HashModel(resolution: 1, depth: 4);
 
-    const hashlet = Hashlet(r: 1, g: 2, b: 3, a: 4);
-    const hashlet2 = Hashlet(r: 1, g: 2, b: 3, a: 4);
+    const hashlet = HashCell(r: 1, g: 2, b: 3, a: 4);
+    const hashlet2 = HashCell(r: 1, g: 2, b: 3, a: 4);
 
     a[0] = hashlet;
     b[0] = hashlet2;

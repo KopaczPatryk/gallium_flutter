@@ -20,10 +20,10 @@ class ThumbnailsCubit extends Cubit<ThumbnailsState> {
     required PhotosRepository photosRepository,
   })  : _thumbnailsRepository = thumbnailsRepository,
         _photosRepository = photosRepository,
-        super(InitialState());
+        super(const ThumbnailsState.initial());
 
   Future<void> init() async {
-    emit(const GeneratingThumbnailsState());
+    emit(const ThumbnailsState.generating());
 
     final photos = await _photosRepository.getSourceFiles();
     final thumbnails = await _thumbnailsRepository.getAllThumbnails();
@@ -42,10 +42,12 @@ class ThumbnailsCubit extends Cubit<ThumbnailsState> {
         _thumbnails.add(thumbnail);
         await Future.delayed(const Duration(milliseconds: 1), () => null);
 
-        emit(GeneratedThumbnailState(
-          allThumbnails: _thumbnails,
-          newThumbnail: thumbnail,
-        ));
+        emit(
+          ThumbnailsState.generated(
+            allThumbnails: _thumbnails,
+            newThumbnail: thumbnail,
+          ),
+        );
       }
     }
   }

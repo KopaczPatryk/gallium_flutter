@@ -1,52 +1,10 @@
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallium_flutter/app.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
+import 'package:gallium_flutter/pages/workspace_setup_page/workspace_setup_cubit.dart';
 import 'package:gallium_flutter/repositories/session_repository.dart';
-
-class WorkspaceSetupCubit extends Cubit<_State> {
-  final SessionRepository _sessionRepository;
-  String? _path;
-
-  WorkspaceSetupCubit({
-    required SessionRepository sessionRepository,
-  })  : _sessionRepository = sessionRepository,
-        super(_State.initial);
-
-  Future<void> pickFolder() async {
-    final path = await FilePicker.platform.getDirectoryPath();
-
-    if (path != null && path.isNotEmpty) {
-      final exists = Directory(path).existsSync();
-      if (exists) {
-        _path = path;
-        return emit(_State.valid);
-      }
-    }
-    return emit(_State.invalid);
-  }
-
-  Future<void> proceed() async {
-    if (state == _State.valid) {
-      final path = _path;
-      if (path == null) {
-        throw StateError('Path cannot be null');
-      } else {
-        await _sessionRepository.saveWorkspace(path);
-      }
-    }
-  }
-}
-
-enum _State {
-  initial,
-  valid,
-  invalid,
-}
 
 @RoutePage()
 class WorkspaceSetupPage extends StatelessWidget {
@@ -80,19 +38,19 @@ class WorkspaceSetupPage extends StatelessWidget {
                 const Text(
                   'In order to use the app you need to specify the workspace',
                 ),
-                BlocBuilder<WorkspaceSetupCubit, _State>(
+                BlocBuilder<WorkspaceSetupCubit, WorkspaceSetupState>(
                   builder: (context, state) {
                     final WorkspaceSetupCubit cubit =
                         context.read<WorkspaceSetupCubit>();
                     switch (state) {
-                      case _State.initial:
+                      case WorkspaceSetupState.initial:
                         return TextButton(
                           onPressed: cubit.pickFolder,
                           child: const Text(
                             'Select folder',
                           ),
                         );
-                      case _State.valid:
+                      case WorkspaceSetupState.valid:
                         return Column(
                           children: [
                             Row(
@@ -119,7 +77,7 @@ class WorkspaceSetupPage extends StatelessWidget {
                             ),
                           ],
                         );
-                      case _State.invalid:
+                      case WorkspaceSetupState.invalid:
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

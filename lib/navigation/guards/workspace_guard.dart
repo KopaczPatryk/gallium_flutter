@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preference_manager.dart';
 
-/// Required workspace folder to be set
+/// Requires workspace folder to be set
 class WorkspaceGuard extends AutoRouteGuard {
   final PreferenceManager _preferencesRepository;
 

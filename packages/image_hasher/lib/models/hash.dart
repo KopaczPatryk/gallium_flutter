@@ -1,22 +1,14 @@
 ﻿import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-import 'package:hive/hive.dart';
-import 'package:image_hasher/models/hashlet.dart';
+import 'package:image_hasher/models/hash_cell.dart';
 
-part 'hash.g.dart';
-
-@HiveType(typeId: 0)
-class Hash extends HiveObject with EquatableMixin {
+class HashModel with EquatableMixin {
   /// In how many the 255 is divided
-  @HiveField(0)
   final int depth;
 
   /// Array of hash bytes
-  @HiveField(1)
   final Uint8List hashList;
-
-  @HiveField(2)
   final int resolution;
 
   int get length => hashList.length;
@@ -27,14 +19,15 @@ class Hash extends HiveObject with EquatableMixin {
         hashList,
       ];
 
-  Hash({
+  HashModel({
     required this.resolution,
     required this.depth,
-  }) : hashList = Uint8List(resolution * resolution * 4);
+    Uint8List? hashList,
+  }) : hashList = hashList ?? Uint8List(resolution * resolution * 4);
 
-  Hashlet operator [](int index) {
+  HashCell operator [](int index) {
     final int baseIndex = index * 4;
-    return Hashlet(
+    return HashCell(
       r: baseIndex,
       g: baseIndex + 1,
       b: baseIndex + 2,
@@ -42,7 +35,7 @@ class Hash extends HiveObject with EquatableMixin {
     );
   }
 
-  operator []=(int i, Hashlet value) {
+  operator []=(int i, HashCell value) {
     final baseIndex = i * 4;
     hashList[baseIndex] = value.r;
     hashList[baseIndex + 1] = value.g;

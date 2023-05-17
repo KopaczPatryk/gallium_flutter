@@ -6,7 +6,7 @@ import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/navigation/app_router.gr.dart';
 import 'package:gallium_flutter/repositories/hashes_repository.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
-import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preference_manager.dart';
 import 'package:gallium_flutter/repositories/providers/database_provider.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';

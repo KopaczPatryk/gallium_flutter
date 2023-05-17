@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:gallium_flutter/cfg/configuration.dart';
-import 'package:gallium_flutter/repositories/preferences_repository/preferences_repository.dart';
+import 'package:gallium_flutter/repositories/preferences_repository/preference_manager.dart';
 import 'package:gallium_flutter/utils/mixins/preferences_mixin.dart';
 import 'package:image/image.dart';
 import 'package:path/path.dart' as p;
