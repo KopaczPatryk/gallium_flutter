@@ -22,24 +22,32 @@ class HashesCubit extends Cubit<HashesState> {
         super(const HashesState.initial());
 
   Future<void> init() async {
-    emit(const HashesState.generating());
+    emit(const HashesState.beganGenerating());
 
     final sourceImages = await _photosRepository.getSourceFiles();
 
     final List<HashModel> hashes = [];
 
+    late HashModel lastHash;
     for (SourceImage sourceImage in sourceImages) {
-      final HashModel hash = await _hashRepo.getHash(sourceImage);
+      lastHash = await _hashRepo.getHash(sourceImage);
 
-      hashes.add(hash);
+      hashes.add(lastHash);
 
-      final newState = HashesState.generated(
-        lastGenerated: hash,
-        allHashes: hashes,
+      final newState = HashesState.generating(
+        lastGenerated: lastHash,
+        generatedHashes: hashes,
         totalCount: sourceImages.length,
       );
 
       emit(newState);
     }
+
+    final finalState = HashesState.generated(
+      lastGenerated: lastHash,
+      allHashes: hashes,
+    );
+
+    emit(finalState);
   }
 }

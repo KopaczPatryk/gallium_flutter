@@ -31,12 +31,13 @@ class _PhotoBrowserPageState extends State<PhotoBrowserPage> {
           builder: (context, state) {
             return state.when(
               initial: () => const Text('Idle'),
-              generating: () => const Text('Generating hashes'),
-              generated: (lastGenerated, allHashes, totalCount) {
-                return Text(
-                  'Generated ${allHashes.length} of $totalCount hashes',
-                );
-              },
+              beganGenerating: () => const Text('Generating hashes'),
+              generating: (lastGenerated, generatedHashes, totalCount) => Text(
+                'Generated ${generatedHashes.length} of $totalCount hashes...',
+              ),
+              generated: (lastGenerated, allHashes) => Text(
+                'Done generating ${allHashes.length} hashes',
+              ),
               error: () => const Text('Error'),
             );
           },
