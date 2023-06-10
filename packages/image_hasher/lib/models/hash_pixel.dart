@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class HashUnit with EquatableMixin {
+/// Represents color used to describe hash pixel
+class HashPixel with EquatableMixin {
   final int r;
   final int g;
   final int b;
@@ -14,7 +15,7 @@ class HashUnit with EquatableMixin {
         a,
       ];
 
-  const HashUnit({
+  const HashPixel({
     required this.r,
     required this.g,
     required this.b,

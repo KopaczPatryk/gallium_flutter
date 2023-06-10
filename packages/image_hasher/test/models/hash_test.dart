@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_hasher/models/hash_model.dart';
-import 'package:image_hasher/models/hash_unit.dart';
+import 'package:image_hasher/models/hash_pixel.dart';
 
 void main() {
   test('hashes with same const hashlets are equal', () {
     final a = HashModel(resolution: 1, depth: 8);
     final b = HashModel(resolution: 1, depth: 8);
-    const hashlet = HashUnit(r: 1, g: 2, b: 3, a: 4);
+    const hashlet = HashPixel(r: 1, g: 2, b: 3, a: 4);
 
     a[0] = hashlet;
     b[0] = hashlet;
@@ -17,8 +17,8 @@ void main() {
   test('hashes with same hashlets are equal', () {
     final a = HashModel(resolution: 1, depth: 8);
     final b = HashModel(resolution: 1, depth: 8);
-    const hashlet = HashUnit(r: 1, g: 2, b: 3, a: 4);
-    const hashlet2 = HashUnit(r: 1, g: 2, b: 3, a: 4);
+    const hashlet = HashPixel(r: 1, g: 2, b: 3, a: 4);
+    const hashlet2 = HashPixel(r: 1, g: 2, b: 3, a: 4);
 
     a[0] = hashlet;
     b[0] = hashlet2;
@@ -29,7 +29,7 @@ void main() {
   test('hashes with different hash arrays are not equal', () {
     final a = HashModel(resolution: 1, depth: 8);
     final b = HashModel(resolution: 1, depth: 8);
-    const hashlet = HashUnit(r: 1, g: 2, b: 3, a: 4);
+    const hashlet = HashPixel(r: 1, g: 2, b: 3, a: 4);
 
     a[0] = hashlet;
 
@@ -40,8 +40,8 @@ void main() {
     final a = HashModel(resolution: 1, depth: 8);
     final b = HashModel(resolution: 1, depth: 4);
 
-    const hashlet = HashUnit(r: 1, g: 2, b: 3, a: 4);
-    const hashlet2 = HashUnit(r: 1, g: 2, b: 3, a: 4);
+    const hashlet = HashPixel(r: 1, g: 2, b: 3, a: 4);
+    const hashlet2 = HashPixel(r: 1, g: 2, b: 3, a: 4);
 
     a[0] = hashlet;
     b[0] = hashlet2;

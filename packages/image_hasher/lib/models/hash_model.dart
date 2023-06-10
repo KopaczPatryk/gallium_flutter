@@ -1,7 +1,7 @@
 ﻿import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-import 'package:image_hasher/models/hash_unit.dart';
+import 'package:image_hasher/models/hash_pixel.dart';
 
 class HashModel with EquatableMixin {
   /// Into how many parts the 256 is divided
@@ -28,9 +28,9 @@ class HashModel with EquatableMixin {
     Uint8List? hashList,
   }) : hashList = hashList ?? Uint8List(resolution * resolution * 4);
 
-  HashUnit operator [](int index) {
+  HashPixel operator [](int index) {
     final int baseIndex = index * 4;
-    return HashUnit(
+    return HashPixel(
       r: hashList[baseIndex],
       g: hashList[baseIndex + 1],
       b: hashList[baseIndex + 2],
@@ -38,7 +38,7 @@ class HashModel with EquatableMixin {
     );
   }
 
-  operator []=(int i, HashUnit value) {
+  operator []=(int i, HashPixel value) {
     final baseIndex = i * 4;
     hashList[baseIndex] = value.r;
     hashList[baseIndex + 1] = value.g;
