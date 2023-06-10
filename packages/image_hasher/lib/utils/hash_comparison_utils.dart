@@ -21,7 +21,7 @@ abstract class HashComparisonUtils {
   }
 
   static double compareHashesFast(
-    final HashModel a,
+    HashModel a,
     HashModel b,
     double threshold,
   ) {

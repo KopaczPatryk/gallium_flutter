@@ -29,6 +29,7 @@ class ImageHasher {
     return (abgrColor & 0xFF00FF00) | (b << 16) | r;
   }
 
+  //FIXME: Its not async but has future return type
   FutureOr<HashModel> getImageHash(Image src) {
     final future = Future(() {
       final image = copyResize(
@@ -42,8 +43,8 @@ class ImageHasher {
       );
 
       int normalizedIndex = 0;
-      for (var x = 0; x < image.width; x++) {
-        for (var y = 0; y < image.height; y++) {
+      for (int x = 0; x < image.width; x++) {
+        for (int y = 0; y < image.height; y++) {
           final abgrPixel = image.getPixel(x, y);
 
           final hashlet = _colorToHashlet(_abgrToArgb(abgrPixel));

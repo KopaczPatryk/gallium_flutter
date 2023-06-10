@@ -35,7 +35,7 @@ class FilesProvider with PreferencesMixin {
     return files;
   }
 
-  FutureOr<List<File>> getThumbnailFiles() async {
+  Future<List<File>> getThumbnailFiles() async {
     final thumbnailsPath = _pathProvider.getThumbnailFolderPath();
     final srcFolder = Directory(thumbnailsPath);
     await srcFolder.create();
@@ -53,7 +53,7 @@ class FilesProvider with PreferencesMixin {
   Future<Uint8List> readImageBytes({
     required String path,
   }) async {
-    var file = FileImage(File(path));
+    final file = FileImage(File(path));
     return file.file.readAsBytes();
   }
 

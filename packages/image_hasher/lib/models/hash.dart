@@ -4,11 +4,13 @@ import 'package:equatable/equatable.dart';
 import 'package:image_hasher/models/hash_cell.dart';
 
 class HashModel with EquatableMixin {
-  /// In how many the 255 is divided
+  /// Into how many parts the 256 is divided
   final int depth;
 
   /// Array of hash bytes
   final Uint8List hashList;
+
+  /// Size of hash square
   final int resolution;
 
   int get length => hashList.length;
@@ -17,6 +19,7 @@ class HashModel with EquatableMixin {
   List<Object> get props => [
         depth,
         hashList,
+        resolution,
       ];
 
   HashModel({

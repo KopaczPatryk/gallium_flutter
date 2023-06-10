@@ -58,7 +58,7 @@ class ThumbnailsRepository with PreferencesMixin {
     return result;
   }
 
-  FutureOr<ThumbnailImage> getThumbnail({
+  Future<ThumbnailImage> getThumbnail({
     required SourceImage sourceImage,
   }) async {
     final File file = _filesProvider.getFile(
