@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:image/image.dart';
 
-import 'models/hash.dart';
-import 'models/hash_cell.dart';
+import 'models/hash_model.dart';
+import 'models/hash_unit.dart';
 
 class ImageHasher {
   final int size;
@@ -16,7 +16,7 @@ class ImageHasher {
     this.depth = 8,
   }) : _depthDivider = 256 ~/ depth;
 
-  HashCell _colorToHashlet(int color) => HashCell(
+  HashUnit _colorToHashlet(int color) => HashUnit(
         r: getRed(color) ~/ _depthDivider,
         g: getGreen(color) ~/ _depthDivider,
         b: getBlue(color) ~/ _depthDivider,
@@ -47,7 +47,8 @@ class ImageHasher {
         for (int y = 0; y < image.height; y++) {
           final abgrPixel = image.getPixel(x, y);
 
-          final hashlet = _colorToHashlet(_abgrToArgb(abgrPixel));
+          final rgbPixel = _abgrToArgb(abgrPixel);
+          final hashlet = _colorToHashlet(rgbPixel);
           hash[normalizedIndex] = hashlet;
           normalizedIndex++;
         }

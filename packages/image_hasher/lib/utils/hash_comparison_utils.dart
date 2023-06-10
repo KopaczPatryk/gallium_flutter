@@ -1,5 +1,5 @@
 import 'package:image_hasher/exceptions/hash_incompatibility_exception.dart';
-import 'package:image_hasher/models/hash.dart';
+import 'package:image_hasher/models/hash_model.dart';
 
 abstract class HashComparisonUtils {
   static double compareHashes(final HashModel a, final HashModel b) {
@@ -10,14 +10,18 @@ abstract class HashComparisonUtils {
     }
     final int length = a.length;
 
-    double equalPercent = 0;
+    int equalCount = 0;
     for (int i = 0; i < length; i++) {
-      if (a[i] == b[i]) {
-        equalPercent++;
+      final hashCellA = a.hashList[i];
+      final hashCellB = b.hashList[i];
+
+      if (hashCellA == hashCellB) {
+        equalCount++;
       }
     }
 
-    return equalPercent / length;
+    final percentage = equalCount / length;
+    return percentage;
   }
 
   static double compareHashesFast(

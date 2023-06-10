@@ -5,7 +5,7 @@ import 'package:gallium_flutter/cfg/configuration.dart';
 import 'package:gallium_flutter/models/source_image.dart';
 import 'package:gallium_flutter/repositories/hashes_repository.dart';
 import 'package:gallium_flutter/repositories/photos_repository.dart';
-import 'package:image_hasher/models/hash.dart';
+import 'package:image_hasher/models/hash_model.dart';
 
 import 'hashes_state.dart';
 

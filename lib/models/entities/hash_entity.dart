@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
-import 'package:image_hasher/models/hash.dart';
+
+import 'package:image_hasher/models/hash_model.dart';
 
 part 'hash_entity.g.dart';
 

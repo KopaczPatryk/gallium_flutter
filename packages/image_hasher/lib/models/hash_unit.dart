@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class HashCell with EquatableMixin {
+class HashUnit with EquatableMixin {
   final int r;
   final int g;
   final int b;
@@ -14,7 +14,7 @@ class HashCell with EquatableMixin {
         a,
       ];
 
-  const HashCell({
+  const HashUnit({
     required this.r,
     required this.g,
     required this.b,

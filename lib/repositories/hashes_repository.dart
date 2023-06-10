@@ -7,7 +7,7 @@ import 'package:gallium_flutter/utils/bloc/path_provider.dart';
 import 'package:hive/hive.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_hasher/image_hasher.dart';
-import 'package:image_hasher/models/hash.dart';
+import 'package:image_hasher/models/hash_model.dart';
 
 class HashesRepository {
   final DatabaseProvider _databaseRepo;

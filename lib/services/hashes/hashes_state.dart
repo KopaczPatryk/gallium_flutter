@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:image_hasher/models/hash.dart';
+import 'package:image_hasher/models/hash_model.dart';
 
 part 'hashes_state.freezed.dart';
 
