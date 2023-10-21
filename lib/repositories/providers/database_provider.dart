@@ -22,7 +22,9 @@ class DatabaseProvider with PreferencesMixin {
   }
 
   void init() {
-    Hive.init(_pathProvider.getDatabasePath());
+    final path = _pathProvider.getDatabasePath();
+
+    Hive.init(path);
     Hive.registerAdapter(HashEntityAdapter());
   }
 

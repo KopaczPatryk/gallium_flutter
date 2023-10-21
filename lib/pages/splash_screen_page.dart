@@ -61,11 +61,11 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
           );
         }
       },
-      child: const Scaffold(
+      child: Scaffold(
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: const [
               Text(
                 'Gallium',
                 style: TextStyle(fontSize: 50),

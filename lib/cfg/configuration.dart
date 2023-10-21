@@ -2,7 +2,7 @@ enum Configuration {
   dev(
     preferencesPrefix: 'dev',
     thumbnailMaxSize: 250,
-    forceRegenThumbnails: false,
+    forceRegenThumbnails: true,
     forceClearPreferences: false,
     splashScreenDuration: Duration(milliseconds: 100),
   ),

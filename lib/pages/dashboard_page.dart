@@ -10,6 +10,7 @@ import 'package:gallium_flutter/repositories/preferences_repository/preference_m
 import 'package:gallium_flutter/repositories/providers/database_provider.dart';
 import 'package:gallium_flutter/repositories/providers/files_provider.dart';
 import 'package:gallium_flutter/repositories/thumbnails_repository.dart';
+import 'package:gallium_flutter/services/hash_comparator/hash_comparator_cubit.dart';
 import 'package:gallium_flutter/services/hashes/hashes_cubit.dart';
 import 'package:gallium_flutter/services/thumbnails/thumbnails_cubit.dart';
 import 'package:gallium_flutter/utils/bloc/path_provider.dart';
@@ -34,6 +35,7 @@ class _DashboardPageState extends State<DashboardPage> {
   late final HashesRepository _hashRepo;
 
   late final HashesCubit _hashesCubit;
+  late final HashComparatorCubit _hashComparatorCubit;
   late final ThumbnailsCubit _thumbnailsCubit;
 
   @override
@@ -85,7 +87,10 @@ class _DashboardPageState extends State<DashboardPage> {
       photosRepo: _photosRepo,
       hashRepo: _hashRepo,
     );
-
+    _hashComparatorCubit = HashComparatorCubit(
+      hashesRepository: _hashRepo,
+      photosRepository: _photosRepo,
+    );
     _thumbnailsCubit = ThumbnailsCubit(
       configuration: _configuration,
       thumbnailsRepository: _thumbnailsRepo,
@@ -131,6 +136,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 providers: [
                   BlocProvider.value(
                     value: _hashesCubit,
+                  ),
+                  BlocProvider.value(
+                    value: _hashComparatorCubit,
                   ),
                   BlocProvider.value(
                     value: _thumbnailsCubit,

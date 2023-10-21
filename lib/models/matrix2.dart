@@ -1,91 +1,90 @@
 import 'dart:collection';
 import 'dart:math';
 
-class Matrix2<T> extends IterableBase {
-  final List<T> _source;
-  final int width;
-  final int height;
+import 'package:tuple/tuple.dart';
 
-  Matrix2._({
-    required this.width,
-    required this.height,
-    required List<T> source,
-  }) : _source = List.from(source);
+class Matrix2<T, X, Y> extends IterableBase<T> {
+  final List<T?> _source;
+  final List<X> seriesX;
+  final List<Y> seriesY;
 
-  factory Matrix2.empty({
-    required int width,
-    required int height,
-    required T defaultValue,
-  }) {
-    return Matrix2<T>._(
-      width: width,
-      height: height,
-      source: List.generate(
-        width * height,
-        (index) => defaultValue,
-      ),
-    );
-  }
-
-  factory Matrix2.fromList({
-    required List<T> sourceList,
-    required int width,
-    required int height,
-  }) {
-    return Matrix2._(
-      width: width,
-      height: height,
-      source: List<T>.from(
-        sourceList,
-      ),
-    );
-  }
-
+  int get width => seriesX.length;
+  int get height => seriesY.length;
   int get normalizedLength => width * height;
 
+  Matrix2({
+    required this.seriesX,
+    required this.seriesY,
+    T? defaultValue,
+  }) : _source = List<T?>.filled(
+          seriesX.length * seriesY.length,
+          defaultValue,
+          growable: false,
+        );
+
+  int _toIndex(Point<int> point) => point.y * width + point.x;
+  Point<int> _toPoint(int index) => Point(index % width, index ~/ width);
+
   void operator []=(Point<int> point, T value) {
-    final int index = point.y * width + point.x;
+    if (point.x > width || point.y > height) {
+      throw RangeError('Outside of bounds ${point.toString()}');
+    }
+
+    final index = _toIndex(point);
     _source[index] = value;
   }
 
-  T operator [](Point<int> point) {
-    final int index = point.y * width + point.x;
+  T? operator [](Point<int> point) {
+    final index = _toIndex(point);
     return _source[index];
   }
 
-  T get(int index) {
+  T? get(int index) {
     return _source[index];
+  }
+
+  Tuple2<X, Y> getSeriesForIndex(int index) {
+    final point = _toPoint(index);
+
+    return Tuple2(
+      seriesX[point.x],
+      seriesY[point.y],
+    );
+  }
+
+  Tuple2<X, Y> getSeriesForPoint(Point<int> point) {
+    final int x = point.x;
+    final int y = point.y;
+
+    return Tuple2(
+      seriesX[x],
+      seriesY[y],
+    );
   }
 
   @override
-  Iterator get iterator => Matrix2Iterator(this);
+  Iterator<T> get iterator => Matrix2Iterator(this);
 }
 
 class Matrix2Iterator<T> implements Iterator<T> {
   final int _currentIndex = 0;
-  final Matrix2<T> source;
+  final Matrix2 _source;
 
-  Matrix2Iterator(this.source);
+  Matrix2Iterator(
+    this._source,
+  );
 
   @override
   T get current {
-    final Point<int> point = _indexToPoint(_currentIndex);
-    return source[point];
+    return _source.get(_currentIndex);
   }
 
   @override
   bool moveNext() {
     final int nextIndex = _currentIndex + 1;
-    if (source.length >= nextIndex) {
+    if (_source.normalizedLength >= nextIndex) {
       return true;
     }
     return false;
-  }
-
-  Point<int> _indexToPoint(int index) {
-    return Point(
-      _currentIndex % source.width,
-      _currentIndex ~/ source.width,
-    );
   }
 }
